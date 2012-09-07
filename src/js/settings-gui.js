@@ -68,7 +68,17 @@ Fontana.config.SettingsGUI = (function ($) {
      * the settings object and updating the settings url field.
      */
     SettingsGUI.prototype.handleFormChange = function (el) {
-        this.settings.set(el.name, $(el).val());
+        var val = $(el).val();
+
+        switch(el.name) {
+            // minimal effect duration
+            case 'message_animate_interval':
+                val = Math.max(val, this.settings.get('effect_inst').duration+50);
+                el.value = val;
+                break;
+        }
+
+        this.settings.set(el.name, val);
         this.updatePresetUrl();
         this.updateEmbedCode();
     };

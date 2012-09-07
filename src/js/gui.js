@@ -104,13 +104,13 @@ Fontana.GUI = (function ($) {
      * Purge messages in the DOM (if necesarry)
      */
     GUI.prototype.purgeMessages = function (messages) {
-        var all = $('.fontana-message', this.container);
+        var all = $('.fontana-message:hidden', this.container);
         if (all.length >= 30) {
             if (all.index(this.current) < all.length / 2) {
                 all.slice(Math.floor(all.length / 2)).remove();
             }
             else {
-                this.current.nextAll('.fontana-message').remove();
+                this.current.nextAll('.fontana-message:hidden').remove();
             }
         }
     };
@@ -166,6 +166,7 @@ Fontana.GUI = (function ($) {
         if (!this.effect) {
             effectName = this.settings.get('effect');
             this.effect = new Fontana.effects[effectName](this.container, '.fontana-message');
+            this.settings.set('effect_inst', this.effect);
         }
         if (!this.current || !this.current.next().length) {
             next = $('.fontana-message:first', this.container);

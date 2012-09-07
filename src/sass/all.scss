@@ -188,6 +188,12 @@ footer {
     .field {
         position: relative;
         margin-bottom: 12px;
+
+        .help {
+            padding: 4px 0;
+            font-size: 11px;
+            color: #666;
+        }
     }
 
     .search-operators {
@@ -382,7 +388,7 @@ footer {
     border: 1px solid transparent;
     @include border-radius(6px);
     overflow: hidden;
-    position: relative;
+    position: absolute;
     background: rgba(0, 0, 0, .33);
     color: #fff;
     text-shadow: -1px -1px 0 rgba(0, 0, 0, .1);
