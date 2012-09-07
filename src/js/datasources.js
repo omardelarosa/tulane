@@ -130,7 +130,7 @@ Fontana.datasources = (function ($) {
             }
             self.refreshTimeout = window.setTimeout(function () {
                 self.getMessages.call(self)
-            }, 10 * 1000);
+            }, 45 * 1000);
         });
     };
 
