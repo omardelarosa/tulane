@@ -37,7 +37,7 @@ Fontana.config.SettingsGUI = (function ($) {
         }
 
         if(this.settings.get('embed') == 'true') {
-            $("body > header, body > footer").hide();
+            $("#header, #footer").hide();
         }
     };
 
@@ -97,7 +97,7 @@ Fontana.config.SettingsGUI = (function ($) {
                 $("body").addClass("settings");
             }
 
-            self.container.html(html);
+            self.container[0].innerHTML =html;
 
             if(self.settings.get('embed') == 'true' || self.settings.get('preset') == 'true') {
                 self.toggle(false);

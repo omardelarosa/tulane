@@ -47,7 +47,7 @@ textarea, input, select {
     background-color: rgba(0, 0, 0, .33);  /* FF3+, Saf3+, Opera 10.10+, Chrome, IE9 */
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#54000000,endColorstr=#54000000); /* IE6–IE9 */
     zoom: 1;
-    @include clearfix;
+    @include pie-clearfix;
     font-size: 0;
 
     .logo {
@@ -83,9 +83,8 @@ textarea, input, select {
         }
 
         a {
-            margin-right: 12px; 
+            margin: 0 10px;
             display: inline-block;
-            width: 60px;
             font-size: 16px;
         }
     }
@@ -103,6 +102,8 @@ textarea, input, select {
             display: inline;
             margin: 0;
             padding: 0;
+
+
         }
 
         a, iframe {
@@ -115,6 +116,7 @@ textarea, input, select {
                 display: none;
             }
         }
+
         iframe {
             width: 96px;
             border: none;
@@ -122,32 +124,33 @@ textarea, input, select {
             margin: 13px 0 14px 0;
         }
 
-        .settings {
+        li.settings a {
             background: url(../img/cog_white.png) no-repeat 50% 50%;
             background-size: 24px 24px;
             margin-right: 12px;
         }
 
-        .fullscreen {
+        li.fullscreen a {
             background: url(../img/fullscreen.png) no-repeat 50% 50%;
             background-size: 24px 24px;
         }
     }
 
-    @media (max-width: 600px) {
+    @media (max-width: 700px) {
         .logo { margin-left: 10px; }
         .logos {
             position: absolute;
-            right: 10px;
+            right: 0;
             top: 10px;
             border: none;
             padding: 0;
-
-            a {
-                margin: 0 0 0 10px;
-            }
         }
-        .tools { display: none; }
+
+        .tools {
+            position: absolute;
+            top: 45px;
+            right: 5px;
+        }
     }
 }
 
