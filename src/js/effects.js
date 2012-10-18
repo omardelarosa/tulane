@@ -1,7 +1,7 @@
 var Fontana = window.Fontana || {};
 
 Fontana.effects = (function ($) {
-    var Base, Fade, Slide, Zoom, TiltScroll;
+    var Base, Fade, Slide, Zoom, Compress, TiltScroll;
 
     /**
      * Base effect class
@@ -99,6 +99,19 @@ Fontana.effects = (function ($) {
         this.hide_prop = {opacity: 'hide', scale: 5};
     };
     $.extend(Zoom.prototype, Base.prototype);
+
+
+    /**
+     * compress effect
+     */
+    Compress = function (container, selector) {
+        Base.call(this, container, selector);
+        this.duration = 500;
+        this.before_show_prop = { rotateX: -2 };
+        this.show_prop = {opacity: 'show', rotateX: 0 };
+        this.hide_prop = {opacity: 'hide', rotateX: -2 };
+    };
+    $.extend(Compress.prototype, Base.prototype);
 
 
     /**
@@ -201,6 +214,7 @@ Fontana.effects = (function ($) {
         'Fade': Fade,
         'Slide': Slide,
         'Zoom': Zoom,
+        'Compress': Compress,
         'TiltScroll': TiltScroll
     };
 }(window.jQuery));
