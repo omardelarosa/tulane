@@ -1,11 +1,11 @@
-.PHONY : help build
+.PHONY : help build clean
 BUILDID=$(shell date +%F.%H%M)
 
 help:
 	@echo "make build:"
 	@echo "    build the webpage"
 	@echo "make clean:"
-	@echo "
+	@echo "    remove build artifacts"
 
 build: clean
 build:
