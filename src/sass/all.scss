@@ -53,6 +53,7 @@ textarea, input, select {
     .logo {
         font-size: 16px;
         background: url(../img/logo-tf.png) no-repeat 0 50%;
+        background-size: 33px 33px;
         padding: 12px 0 12px 40px;
         margin-left: 20px;
         font-weight: 600;
@@ -123,11 +124,13 @@ textarea, input, select {
 
         .settings {
             background: url(../img/cog_white.png) no-repeat 50% 50%;
+            background-size: 24px 24px;
             margin-right: 12px;
         }
 
         .fullscreen {
             background: url(../img/fullscreen.png) no-repeat 50% 50%;
+            background-size: 24px 24px;
         }
     }
 
@@ -163,7 +166,7 @@ textarea, input, select {
     height: 480px;
 }
 
-footer {
+#footer {
     display: none;
     background: #fff;
     position: absolute;
@@ -173,9 +176,11 @@ footer {
     right: 0;
 }
 
-.settings footer {
+.settings #footer {
     display: block;
 }
+
+* { zoom: 1; }
 
 #settings {
     max-width: 900px;
@@ -196,6 +201,7 @@ footer {
             color: #000;
             text-decoration: none;
             background: url(../img/cog.png) no-repeat 0 50%;
+            background-size: 24px 24px;
             padding-left: 36px;
         }
     }
