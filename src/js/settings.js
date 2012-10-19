@@ -44,7 +44,7 @@ Fontana.config.Settings = (function ($) {
                           '    font-family: ${font_face||"Open Sans, sans-serif"};' +
                           '}' +
                           '.fontana-message a {' +
-                          '    color: ${text_color}' +
+                          '    color: ${special_color}' +
                           '}' +
                           '.fontana-message .hashtag, .fontana-message .username {'+
                           '    color: ${special_color}' +
