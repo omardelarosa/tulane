@@ -552,19 +552,22 @@ textarea, input, select {
 @media screen and (max-width: 300px) {
     .fontana-message {
         q {
-            font-size: 16px;
-            margin-bottom: 5px;
+            font-size: 15px;
+            margin-bottom: 10px;
         }
 
         cite {
             font-size: 12px;
         }
 
-        figure { margin-top: 0; }
+        figure {
+            margin-top: -3px;
+            margin-right: 6px;
+        }
 
         figure, img {
-            width: 20px;
-            height: 20px;
+            width: 27px;
+            height: 27px;
         }
     }
 }
