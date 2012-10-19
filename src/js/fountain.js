@@ -19,7 +19,7 @@ $(function () {
     fontana.start($('#twitter-fontana'));
 
     // Make settings buttons toggle the settings panel
-    $('a.settings').live('click', function (e) {
+    $('.settings a').live('click', function (e) {
         e.preventDefault();
         settingsGUI.toggle();
     });
