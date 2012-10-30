@@ -130,6 +130,7 @@ Fontana.config.SettingsGUI = (function ($) {
             $('.search-operators', self.container).click(function (e) {
                 e.preventDefault();
                 $('#search_operators').slideToggle();
+                return false;
             });
 
             // Toggle the embed html/preset url textareas on label click
