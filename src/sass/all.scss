@@ -1,5 +1,6 @@
-@import "compass";
-@include global-reset;
+@import "compass/reset";
+@import "compass/css3";
+@import "compass/utilities/general/clearfix/";
 
 html, body { min-height: 100%; }
 
@@ -278,6 +279,7 @@ textarea, input, select {
 
         label {
             font-weight: 600;
+            cursor: pointer;
             a { font-weight: normal; }
         }
 
@@ -398,21 +400,41 @@ textarea, input, select {
         border: solid 2px rgba(255,255,255,.7);
         padding: 5px 10px;
         max-width: 80%;
+        font-weight: 400;
+        @include border-radius(6px);
+        @include transition(none);
 
-        &::-webkit-input-placeholder { color: rgba(255,255,255,.7); }
-        &:-moz-placeholder { color: rgba(255,255,255,.5); }
+        &::-webkit-input-placeholder{ color: rgba(#000,.25);  }
+        &:-moz-placeholder{ color: rgba(#000,.25);  }
+    }
+
+    input[type=text]{
+        background: white;
+        color: #004c7d;
     }
 
     input[type=submit] {
-        width: 110px;
         overflow: visible;
-        border: solid 2px lighten(#80b43c, 20);
+        border: solid 2px #80b43c;
         background: #80b43c;
         cursor: pointer;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 30px;
+        padding: 5px 10px;
+        width: auto;
+        margin-left: -10px;
+        @include background(linear-gradient(top, #80b43c, #6d9c2f));
+        @include border-radius(0 6px 6px 0);
+
+        &:hover{
+            background: #6d9c2f;
+            border-color: #6d9c2f;
+        }
     }
 
     @media (max-width: 650px) {
-        input { font-size: 20px; }
+        input, input[type=submit] { font-size: 20px; }
         input[type=text] { width: 50%; }
     }
 }
