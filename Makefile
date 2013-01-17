@@ -16,7 +16,7 @@ build:
 	# Copy CSS
 	cp -r src/css build
 	# Copy HTML
-	cd src && find -type f -name \*.html -exec cp {} ../build --parents \; && cd ..
+	cd src && find . -type f -name \*.html -exec cp "{}" ../build --parents \; && cd ..
 	# Copy farbtastic
 	cd src && cp -r js/lib/farbtastic js/lib/modernizr.js ../build --parents && cd ..
 	# Concat & minify JS
