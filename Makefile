@@ -18,11 +18,11 @@ build:
 	# Minify & concatenate JS
 	jammit -c jammit.yml -o build/js
 	# Uncomment minified js / remove dev.js
-	sed --in-place='' --expression='s/<!-- scripts concatenated/<!-- scripts concatenated -->/' build/*.html
-	sed --in-place='' --expression='s/\/scripts concatenated -->/<!-- \/scripts concatenated -->/' build/*.html
-	sed --in-place='' --expression='/<!-- scripts development -->/,/<!-- \/scripts development -->/d' build/*.html
+	perl -pi -e 's/<!-- scripts concatenated/<!-- scripts concatenated -->/' build/*.html
+	perl -pi -e 's/\/scripts concatenated -->/<!-- \/scripts concatenated -->/' build/*.html
+	perl -ni -e 'print unless /<!-- scripts development -->/../<!-- \/scripts development -->/' build/*.html
 	# Add cache busting querystring to assets
-	sed --in-place='' --expression='s/{{BUILDID}}/'"$(BUILDID)"'/' build/*.html
+	perl -pi -e 's/{{BUILDID}}/'"$(BUILDID)"'/' build/*.html
 	# Create a tar-ball
 	tar -czf "twitterfontana.$(BUILDID).tgz" build
 	@echo "Done!"
