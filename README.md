@@ -129,7 +129,8 @@ The repository doesn't include minified scripts. Instead it offers a Makefile
 with a build command.
 
 Running this build script requires a unix like environment (Linux, OSX etc.)
-with `make`, `tar` & `sed` availabele (should be there by default on Linux).
+with `make`, `tar`, `rsync` & `perl` availabele (should be there by default
+on Linux).
 
 The only non-standard tool is [jammit](https://github.com/documentcloud/jammit/).
 Insalling jammit can be easily done by entering ``sudo gem install jammit``
