@@ -71,7 +71,7 @@ Fontana.GUI = (function ($) {
                 this.effect.destroy();
                 this.effect = null;
             }
-            this.scheduleAnimation(0);
+            this.animateMessages(this.paused);
         }
         if ($.inArray(setting, this.style_settings) > -1) {
             this.updateStyle();
@@ -166,8 +166,9 @@ Fontana.GUI = (function ($) {
     /**
      * Transition from one message to the next one
      */
-    GUI.prototype.animateMessages = function () {
+    GUI.prototype.animateMessages = function (once) {
         var self = this, next, effectName, nextTime;
+        once = !!once;
         if (!this.effect) {
             effectName = this.settings.get('effect');
             this.effect = new Fontana.effects[effectName](this.container, '.fontana-message');
@@ -187,7 +188,9 @@ Fontana.GUI = (function ($) {
             // cleanup
             self.current = next;
             self.purgeMessages.call(self);
-            self.scheduleAnimation.call(self);
+            if (!once) {
+                self.scheduleAnimation.call(self);
+            }
         });
     };
 
