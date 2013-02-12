@@ -3,6 +3,19 @@
 	var staticFontana = new Fontana.GUI(data, new Fontana.config.Settings());
 	staticFontana.start($('#twitter-fontana'));
 
+    // Make pause button work
+    $('.pause').click(function (e) {
+        e.preventDefault();
+        if (staticFontana.paused) {
+            staticFontana.resume();
+            $(this).removeClass('paused');
+        }
+        else {
+            staticFontana.pause();
+            $(this).addClass('paused');
+        }
+    });
+
     // Make fullscreen buttons work
     $('.fullscreen').click(function (e) {
         e.preventDefault();
