@@ -80,11 +80,13 @@ Fontana.GUI = (function ($) {
 
     /* Setup datasource listener */
     GUI.prototype.setupDatasourceListener = function () {
-        var self = this;
-        this.datasourceListener = function (messages) {
-            self.handleMessages.call(self, messages);
-        };
-        this.datasource.bind('messages', this.datasourceListener);
+        if (!this.datasourceListener) {
+            var self = this;
+            this.datasourceListener = function (messages) {
+                self.handleMessages.call(self, messages);
+            };
+            this.datasource.bind('messages', this.datasourceListener);
+        }
     };
 
     /**
@@ -211,21 +213,25 @@ Fontana.GUI = (function ($) {
      * Stop all running timers
      */
     GUI.prototype.pause = function () {
-        this.paused = true;
-        this.datasource.unbind('messages', this.datasourceListener);
-        this.datasourceListener = null;
-        window.clearTimeout(this.animateTimer);
-        this.animatePause = new Date();
+        if (!this.paused) {
+            this.paused = true;
+            this.datasource.unbind('messages', this.datasourceListener);
+            this.datasourceListener = null;
+            window.clearTimeout(this.animateTimer);
+            this.animatePause = new Date();
+        }
     };
 
     /**
      * Restart all timers
      */
     GUI.prototype.resume = function () {
-        this.paused = false;
-        this.setupDatasourceListener();
-        this.scheduleAnimation();
-        this.animatePause = null;
+        if (this.paused) {
+            this.paused = false;
+            this.setupDatasourceListener();
+            this.scheduleAnimation();
+            this.animatePause = null;
+        }
     };
 
     /**
