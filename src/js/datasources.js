@@ -8,12 +8,13 @@ There are three different types of Datasources:
  * Fontana.datasources.HTML
 
 The datasource interface consist of the constructor taking one parameter.
+This parameter differs per implementation.
 
 The datastore provides an instance method `getMessages` that will trigger
 a 'messages' event every time there are new messages.
 
 Consumers can listen to the `messages` event by binding a callable that
-takes one parameter, an array of messages.
+takes one parameter: an array of messages.
 
 Each datasource has a `stop` method. Calling this method will stop
 the datasource from refreshing. This methods is a no-op for the Static
@@ -38,7 +39,7 @@ The following object describes a bare bones message:
    }
 
 The static datasource will only trigger the `messages` event after
-calling `getMessages`. Updating the set of messags is not supported.
+calling `getMessages`. Updating the set of messages is not supported.
 
 == Twitter ==
 
@@ -159,31 +160,33 @@ Fontana.datasources = (function ($) {
 
 
     /**
-     * HTML datasource
-     *
-     * Constructor takes a html node with "Tweets".
-     */
-     HTML = function (node) {
+    * HTML datasource
+    *
+    * Constructor takes a html node with "Tweets".
+    */
+    HTML = function (node) {
         this.node = node;
         this.data = [];
         this.parseMessages();
-     };
+    };
 
-     HTML.prototype.parseMessages = function () {
+    HTML.prototype.parseMessages = function () {
         var self = this;
         $('.fontana-message', this.node).each(function () {
             self.data.push({
                 'created_at': new Date().toString(),
                 'text': $(this).find('q').text(),
                 'from_user': $(this).find('cite').text(),
-                'profile_image_url': 'http://api.twitter.com/1/users/profile_image/' + $(this).find('cite').text()
+                'profile_image_url':
+                    'http://api.twitter.com/1/users/profile_image/' +
+                        $(this).find('cite').text()
             });
         });
-     };
+    };
 
-     HTML.prototype.getMessages = function () {
+    HTML.prototype.getMessages = function () {
         this.trigger('messages', this.data);
-     };
+    };
 
     HTML.prototype.stop = function () {};
 
