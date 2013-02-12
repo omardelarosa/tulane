@@ -119,7 +119,7 @@ Fontana.effects = (function ($) {
      */
     TiltScroll = function (container, selector) {
         Base.call(this, container, selector);
-        this.duration = 600;
+        this.duration = 500;
 
         this.element_prev1 = null;
         this.element_prev2 = null;
