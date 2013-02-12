@@ -18,10 +18,6 @@ Fontana.effects = (function ($) {
         this.cur_element = null;
 
         var self = this;
-
-        $(window).bind("resize", function() {
-            self.positionMiddle(self.cur_element);
-        });
     };
 
     Base.prototype.positionMiddle = function (element) {
@@ -144,7 +140,8 @@ Fontana.effects = (function ($) {
 
         this.elements.unshift(element);
         if (this.elements.length > 4) {
-            this.elements.pop();
+            var old = this.elements.pop();
+            old.hide();
         }
         self.positionMiddle(element);
 
@@ -195,12 +192,52 @@ Fontana.effects = (function ($) {
         $(this.selector, this.container).stop().removeAttr('style').hide();
     };
 
+    /**
+     * simple scroll effect
+     */
+    Scroll = function (container, selector) {
+        Base.call(this, container, selector);
+        this.duration = 500;
+        this.show_prop = {opacity: 'show', top: 24};
+        this.prev_elements = [];
+    };
+    $.extend(Scroll.prototype, Base.prototype);
+
+    Scroll.prototype.next = function (element, callback) {
+        var self = this;
+        this.positionMiddle(element);
+        element.css({'top': -element.outerHeight()});
+
+        function step(val, fx) {
+            if (fx.prop == 'opacity') {
+                $.each(self.prev_elements, function () {
+                    var $this = $(this);
+                    if (val == 0) {
+                        $this.data('top', parseInt($this.css('top')));
+                    }
+                    $this.css({'top': $this.data('top') + ((element.outerHeight() + 24) * val)});
+                });
+            }
+        }
+        element.animate(this.show_prop, {
+            'step': step,
+            'duration': this.duration,
+            'complete': callback
+        });
+        this.prev_elements.unshift(element);
+        if (this.prev_elements > 6) {
+            var old = this.prev_elements.pop();
+            old.hide();
+        }
+    };
+
     return {
         'Base': Base,
         'Fade': Fade,
         'Slide': Slide,
         'Zoom': Zoom,
         'Compress': Compress,
-        'TiltScroll': TiltScroll
+        'TiltScroll': TiltScroll,
+        'Scroll': Scroll
     };
 }(window.jQuery));
