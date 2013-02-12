@@ -73,8 +73,7 @@ Fontana.config.SettingsGUI = (function ($) {
         switch(el.name) {
             // minimal effect duration
             case 'message_animate_interval':
-                val = Math.max(val, this.settings.get('effect_inst').duration+50);
-                el.value = val;
+                el.value = Math.max(val, 750);
                 break;
         }
 
