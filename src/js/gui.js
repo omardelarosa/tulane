@@ -66,12 +66,12 @@ Fontana.GUI = (function ($) {
             }
         }
         if (setting == 'effect') {
-            this.pause();
+            window.clearTimeout(this.animateTimer);
             if (this.effect) {
                 this.effect.destroy();
                 this.effect = null;
             }
-            this.animateMessages();
+            this.scheduleAnimation(0);
         }
         if ($.inArray(setting, this.style_settings) > -1) {
             this.updateStyle();
@@ -102,7 +102,7 @@ Fontana.GUI = (function ($) {
     };
 
     /**
-     * Purge messages in the DOM (if necesarry)
+     * Purge messages in the DOM (if necessary)
      */
     GUI.prototype.purgeMessages = function (messages) {
         var all = $('.fontana-message:hidden', this.container);
@@ -141,12 +141,15 @@ Fontana.GUI = (function ($) {
         if(this.style_tag) {
             this.style_tag.remove();
         }
-        this.style_tag = $.tmpl("<style type='text/css'>" + this.settings.get('style_template') + "</style>", options)
-            .appendTo("head");
+        this.style_tag = $.tmpl("<style type='text/css'>" +
+                this.settings.get('style_template') +
+            "</style>", options).appendTo("head");
     };
 
-    GUI.prototype.scheduleAnimation = function () {
-        var self = this, nextInterval = this.settings.get('message_animate_interval');
+    GUI.prototype.scheduleAnimation = function (nextInterval) {
+        var self = this,
+            nextInterval = (isNaN(nextInterval) ?
+                this.settings.get('message_animate_interval') : nextInterval);
         if (this.animatePause && this.animateScheduled) {
             nextInterval -= this.animatePause.getTime() - this.animateScheduled.getTime();
             nextInterval -= (new Date()).getTime() - this.animatePause.getTime();
@@ -184,8 +187,8 @@ Fontana.GUI = (function ($) {
             // cleanup
             self.current = next;
             self.purgeMessages.call(self);
+            self.scheduleAnimation.call(self);
         });
-        this.scheduleAnimation();
     };
 
     /* public control methods */
