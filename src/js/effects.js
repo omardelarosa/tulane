@@ -120,11 +120,7 @@ Fontana.effects = (function ($) {
     TiltScroll = function (container, selector) {
         Base.call(this, container, selector);
         this.duration = 500;
-
-        this.element_prev1 = null;
-        this.element_prev2 = null;
-        this.element_prev3 = null;
-        this.element_prev4 = null;
+        this.elements = [];
     };
     $.extend(TiltScroll.prototype, Base.prototype);
 
@@ -133,14 +129,12 @@ Fontana.effects = (function ($) {
 
         self.transforms = {
             from: {
-                upnew_scale:2.6,    upnew_zindex: 1,   upnew_pos:100,   upnew_opacity: 0,       upnew_blur: 4,         // upcoming tweet
                 up_scale:1.4,       up_zindex: 5,      up_pos:66,       up_opacity: 0,          up_blur: 4,            // upcoming tweet
                 main_scale:1.2,     main_zindex: 10,   main_pos:33,     main_opacity: 0.5,      main_blur: 2,          // main tweet
                 prev_scale:1,       prev_zindex: 5,    prev_pos:0,      prev_opacity: 1,        prev_blur: 0,          // previous tweet
                 prevold_scale:0.8,  prevold_zindex: 1, prevold_pos:-33, prevold_opacity: 0.5,   prevold_blur: 2       // previous tweet
             },
             to: {
-                upnew_scale:1.6,    upnew_zindex: 1,   upnew_pos:66,    upnew_opacity: 0,       upnew_blur: 4,         // upcoming tweet
                 up_scale:1.2,       up_zindex: 5,      up_pos:33,       up_opacity: 0.5,        up_blur: 2,             // upcoming tweet
                 main_scale:1.0,     main_zindex: 10,   main_pos:0,      main_opacity: 1,        main_blur: 0,            // main tweet
                 prev_scale:0.8,     prev_zindex: 5,    prev_pos:-33,    prev_opacity: 0.5,      prev_blur: 2,          // previous tweet
@@ -148,12 +142,15 @@ Fontana.effects = (function ($) {
             }
         };
 
+        this.elements.unshift(element);
+        if (this.elements.length > 4) {
+            this.elements.pop();
+        }
         var elements = {
-            upnew: element,
-            up: self.element_prev1,
-            main: self.element_prev2,
-            prev: self.element_prev3,
-            prevold: self.element_prev4
+            up: self.elements[0],
+            main: self.elements[1],
+            prev: self.elements[2],
+            prevold: self.elements[3]
         };
 
         for(var t in elements) {
@@ -187,15 +184,6 @@ Fontana.effects = (function ($) {
             'duration': self.duration,
             'ease': 'linear',
             'complete': function() {
-                if(self.element_prev4) {
-                    self.element_prev4.hide();
-                }
-
-                self.element_prev4 = self.element_prev3;
-                self.element_prev3 = self.element_prev2;
-                self.element_prev2 = self.element_prev1;
-                self.element_prev1 = element;
-
                 if(callback) {
                     callback.call();
                 }
