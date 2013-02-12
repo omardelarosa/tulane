@@ -32,6 +32,7 @@ Fontana.GUI = (function ($) {
 
     GUI = function (datasource, settings) {
         var self = this;
+        this.paused = false;
         this.datasource = datasource;
         this.datasourceListener = null;
         this.settings = settings;
@@ -148,6 +149,7 @@ Fontana.GUI = (function ($) {
         var self = this, nextInterval = this.settings.get('message_animate_interval');
         if (this.animatePause && this.animateScheduled) {
             nextInterval -= this.animatePause.getTime() - this.animateScheduled.getTime();
+            nextInterval -= (new Date()).getTime() - this.animatePause.getTime();
         }
         if (!this.animateScheduled || nextInterval < 0) {
             nextInterval = 0;
@@ -192,7 +194,6 @@ Fontana.GUI = (function ($) {
      * Start the fountain in the given container
      */
     GUI.prototype.start = function (node) {
-        var self = this;
         this.container = node;
         this.updateStyle();
         this.clear();
@@ -204,6 +205,7 @@ Fontana.GUI = (function ($) {
      * Stop all running timers
      */
     GUI.prototype.pause = function () {
+        this.paused = true;
         this.datasource.unbind('messages', this.datasourceListener);
         this.datasourceListener = null;
         window.clearTimeout(this.animateTimer);
@@ -214,7 +216,7 @@ Fontana.GUI = (function ($) {
      * Restart all timers
      */
     GUI.prototype.resume = function () {
-        var self = this;
+        this.paused = false;
         this.setupDatasourceListener();
         this.scheduleAnimation();
         this.animatePause = null;

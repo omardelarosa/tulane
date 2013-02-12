@@ -19,9 +19,22 @@ $(function () {
     fontana.start($('#twitter-fontana'));
 
     // Make settings buttons toggle the settings panel
-    $('.settings a').live('click', function (e) {
+    $('.settings > a').live('click', function (e) {
         e.preventDefault();
         settingsGUI.toggle();
+    });
+
+    // Make pause button work
+    $('.pause').click(function (e) {
+        e.preventDefault();
+        if (fontana.paused) {
+            fontana.resume();
+            $(this).removeClass('paused');
+        }
+        else {
+            fontana.pause();
+            $(this).addClass('paused');
+        }
     });
 
     // Make fullscreen buttons work
