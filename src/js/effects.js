@@ -204,13 +204,16 @@ Fontana.effects = (function ($) {
     $.extend(Scroll.prototype, Base.prototype);
 
     Scroll.prototype.next = function (element, callback) {
-        var self = this;
+        var prev = this.prev_elements;
         this.positionMiddle(element);
-        element.css({'top': -element.outerHeight()});
-
+        element.hide();
+        element.css({top: -element.outerHeight()});
+        if ($.inArray(element[0], prev) > -1) {
+            prev.splice($.inArray(element[0], prev), 1);
+        }
         function step(val, fx) {
             if (fx.prop == 'opacity') {
-                $.each(self.prev_elements, function () {
+                $.each(prev, function () {
                     var $this = $(this);
                     if (val == 0) {
                         $this.data('top', parseInt($this.css('top')));
@@ -224,10 +227,10 @@ Fontana.effects = (function ($) {
             'duration': this.duration,
             'complete': callback
         });
-        this.prev_elements.unshift(element);
-        if (this.prev_elements > 6) {
-            var old = this.prev_elements.pop();
-            old.hide();
+        prev.unshift(element[0]);
+        if (prev.length > 12) {
+            var old = prev.pop();
+            $(old).hide();
         }
     };
 
