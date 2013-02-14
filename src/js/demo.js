@@ -1,6 +1,11 @@
 (function () {
 	var data = new Fontana.datasources.HTML($('#twitter-fontana'));
-	var staticFontana = new Fontana.GUI(data, new Fontana.config.Settings());
+    var settings = new Fontana.config.Settings()
+    var effect = [
+        'Slide', 'Fade', 'Zoom', 'Compress', 'Scroll'
+    ][Math.floor(Math.random() * 5)];
+    settings.update({effect: effect, message_animate_interval: 3 * 1000});
+	var staticFontana = new Fontana.GUI(data, settings);
 	staticFontana.start($('#twitter-fontana'));
 
     // Make pause button work
