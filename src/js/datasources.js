@@ -148,7 +148,7 @@ Fontana.datasources = (function ($) {
             }
             self.refreshTimeout = window.setTimeout(function () {
                 self.getMessages.call(self)
-            }, 5 * 1000);
+            }, 30 * 1000);
         });
     };
 
