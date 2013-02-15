@@ -25,7 +25,7 @@ Fontana.config.SettingsGUI = (function ($) {
      * Load settings from the url
      */
     SettingsGUI.prototype.loadSettingsFromUrl = function () {
-        var settings = {}, params, i, pair, key, value;
+        var params, i, pair, key, value;
         params = window.location.search.substring(1).replace(/\+/g, ' ').split('&');
         for (i = 0; i < params.length; i++) {
             pair = params[i].split('=')
@@ -46,7 +46,7 @@ Fontana.config.SettingsGUI = (function ($) {
      */
     SettingsGUI.prototype.generateSettingsUrl = function (query) {
         var url;
-        var query = query || {'preset': 'true'};
+        query = query || {'preset': 'true'};
         url = location.protocol + '//' + location.host + location.pathname;
         $.each(this.fields, function (i, key) {
             var value = $('#' + key).val();
@@ -133,8 +133,8 @@ Fontana.config.SettingsGUI = (function ($) {
             });
 
             // Toggle the embed html/preset url textareas on label click
-            $('#embedForm label').click(function (e) {
-                $('#embedForm label').removeClass('active')
+            $('label', $('#embedForm')).click(function (e) {
+                $('label', $('#embedForm')).removeClass('active')
                 $(this).addClass('active');
                 $('#embed_html, #preset_url').hide();
                 $('#' + $(this).attr('for')).show();
