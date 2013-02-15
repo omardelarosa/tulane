@@ -16,8 +16,6 @@ Fontana.effects = (function ($) {
         this.show_prop = {};
         this.hide_prop = {};
         this.cur_element = null;
-
-        var self = this;
     };
 
     Base.prototype.positionMiddle = function (element) {
@@ -40,7 +38,7 @@ Fontana.effects = (function ($) {
                 'complete': function () {
                     element.animate(self.before_show_prop, 0)
                         .animate(self.show_prop, {
-                            'duration': this.duration,
+                            'duration': self.duration,
                             'complete': callback
                         });
                 }});
@@ -121,35 +119,45 @@ Fontana.effects = (function ($) {
     $.extend(TiltScroll.prototype, Base.prototype);
 
     TiltScroll.prototype.next = function(element, callback) {
-        var self = this;
-
-        self.transforms = {
-            from: {
-                up_scale: 1.4,      up_zindex: 5,      up_pos: 66,      up_opacity: 0,       up_blur: 4,     // upcoming tweet
-                main_scale: 1.2,    main_zindex: 10,   main_pos: 33,    main_opacity: 0.5,   main_blur: 2,   // main tweet
-                prev_scale: 1,      prev_zindex: 5,    prev_pos: 0,     prev_opacity: 1,     prev_blur: 0,   // previous tweet
-                prevold_scale: 0.8, prevold_zindex: 1, prevold_pos:-33, prevold_opacity: .5, prevold_blur: 2 // previous tweet
+        var transforms = {
+                from: {
+                    up_scale: 1.4,       up_zindex: 5,      up_pos: 66,
+                    up_opacity: 0,       up_blur: 4,        // upcoming tweet
+                    main_scale: 1.2,     main_zindex: 10,   main_pos: 33,
+                    main_opacity: 0.5,   main_blur: 2,      // main tweet
+                    prev_scale: 1,       prev_zindex: 5,    prev_pos: 0,
+                    prev_opacity: 1,     prev_blur: 0,      // previous tweet
+                    prevold_scale: 0.8,  prevold_zindex: 1, prevold_pos:-33,
+                    prevold_opacity: .5, prevold_blur: 2    // previous tweet
+                },
+                to: {
+                    up_scale: 1.2,       up_zindex: 5,      up_pos: 33,
+                    up_opacity: 0.5,     up_blur: 2,        // upcoming tweet
+                    main_scale: 1,       main_zindex: 10,   main_pos: 0,
+                    main_opacity: 1,     main_blur: 0,      // main tweet
+                    prev_scale: 0.8,     prev_zindex: 5,    prev_pos: -33,
+                    prev_opacity: 0.5,   prev_blur: 2,      // previous tweet
+                    prevold_scale: 0.6,  prevold_zindex: 1, prevold_pos: -66,
+                    prevold_opacity: .0, prevold_blur: 4    // previous tweet
+                }
             },
-            to: {
-                up_scale: 1.2,      up_zindex: 5,      up_pos: 33,       up_opacity: 0.5,     up_blur: 2,     // upcoming tweet
-                main_scale: 1,      main_zindex: 10,   main_pos: 0,      main_opacity: 1,     main_blur: 0,   // main tweet
-                prev_scale: 0.8,    prev_zindex: 5,    prev_pos: -33,    prev_opacity: 0.5,   prev_blur: 2,   // previous tweet
-                prevold_scale: 0.6, prevold_zindex: 1, prevold_pos: -66, prevold_opacity: .0, prevold_blur: 4 // previous tweet
-            }
-        };
-
-        this.elements.unshift(element);
-        if (this.elements.length > 4) {
-            var old = this.elements.pop();
-            old.hide();
+            els = this.elements;
+        if (els.length + 1 > 4) {
+            els.pop();
         }
-        self.positionMiddle(element);
+        if ($.inArray(element[0], els) > -1) {
+            els.unshift(null);
+        }
+        else {
+            els.unshift(element[0]);
+        }
+        this.positionMiddle(element);
 
         var elements = {
-            up: self.elements[0],
-            main: self.elements[1],
-            prev: self.elements[2],
-            prevold: self.elements[3]
+            up: $(els[0]),
+            main: $(els[1]),
+            prev: $(els[2]),
+            prevold: $(els[3])
         };
 
         function step(val, fx) {
@@ -158,11 +166,11 @@ Fontana.effects = (function ($) {
             var prop = match[2];
 
             var el = elements[type];
-            if(el) {
+            if (el) {
                 el._animation = el._animation || { };
                 el._animation[prop] = val;
 
-                if(typeof el._animation.scale != 'undefined' && typeof el._animation.pos != 'undefined') {
+                if(!isNaN(el._animation.scale) && !isNaN(el._animation.pos)) {
                     el.css({
                         display: 'block',
                         opacity: el._animation.opacity,
@@ -174,7 +182,7 @@ Fontana.effects = (function ($) {
             }
         }
 
-        $(self.transforms.from).animate(self.transforms.to, {
+        $(transforms.from).animate(transforms.to, {
             'step': step,
             'duration': self.duration,
             'ease': 'linear',
@@ -184,12 +192,6 @@ Fontana.effects = (function ($) {
                 }
             }
         });
-
-        this.cur_element = element;
-    };
-
-    TiltScroll.prototype.destroy = function () {
-        $(this.selector, this.container).stop().removeAttr('style').hide();
     };
 
     /**
