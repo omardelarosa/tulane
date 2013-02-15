@@ -216,6 +216,7 @@ Fontana.GUI = (function ($) {
     GUI.prototype.start = function (node) {
         if (!this.started) {
             this.container = node;
+            this.container.empty();
             this.updateStyle();
             this.setupDatasourceListener();
             this.datasource.getMessages();
