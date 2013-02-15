@@ -32,11 +32,11 @@ Fontana.GUI = (function ($) {
 
     GUI = function (datasource, settings) {
         var self = this;
+        this.started = false;
         this.paused = false;
         this.datasource = datasource;
         this.datasourceListener = null;
         this.settings = settings;
-        this.messages = [];
         this.animateTimer = -1;
         this.animateScheduled = null;
         this.animatePause = null;
@@ -55,23 +55,21 @@ Fontana.GUI = (function ($) {
      */
     GUI.prototype.handleSettingsChange = function (setting, old, value) {
         if (setting == 'twitter_search') {
-            this.clear();
             if (value) {
-                if (this.datasource) {
-                    this.datasource.stop();
-                }
+                this.destroyDatasourceListener();
+                this.datasource.stop();
                 this.datasource = new Fontana.datasources.Twitter(value);
+                this.stopAnimation();
+                this.container.empty();
                 this.setupDatasourceListener();
                 this.datasource.getMessages();
             }
         }
         if (setting == 'effect') {
-            window.clearTimeout(this.animateTimer);
-            if (this.effect) {
-                this.effect.destroy();
-                this.effect = null;
-            }
-            this.animateMessages(this.paused);
+            this.stopAnimation();
+            this.effect.destroy();
+            this.effect = null;
+            this.scheduleAnimation();
         }
         if ($.inArray(setting, this.style_settings) > -1) {
             this.updateStyle();
@@ -89,18 +87,27 @@ Fontana.GUI = (function ($) {
         }
     };
 
+    /* Destroy datasource listener */
+    GUI.prototype.destroyDatasourceListener = function () {
+        if (this.datasourceListener) {
+            this.datasource.unbind('messages', this.datasourceListener);
+            this.datasourceListener = null;
+        }
+    };
+
     /**
      * Handle the messages from the datasource
      */
     GUI.prototype.handleMessages = function (messages) {
-        var self = this, elements = [];
-        this.pause();
-        elements = $.map(messages, function (message) {
+        var self = this;
+        var elements = $.map(messages, function (message) {
             return self.formatMessage(message)[0];
         });
         this.container.prepend(elements);
         this.current = null;
-        this.resume();
+        if ($('.fontana-message:not(:hidden)', this.container).length == 0) {
+            this.scheduleAnimation();
+        }
     };
 
     /**
@@ -148,14 +155,12 @@ Fontana.GUI = (function ($) {
             "</style>", options).appendTo("head");
     };
 
-    GUI.prototype.scheduleAnimation = function (nextInterval) {
+    /**
+     * Schedule the next animation
+     */
+    GUI.prototype.scheduleAnimation = function () {
         var self = this,
-            nextInterval = (isNaN(nextInterval) ?
-                this.settings.get('message_animate_interval') : nextInterval);
-        if (this.animatePause && this.animateScheduled) {
-            nextInterval -= this.animatePause.getTime() - this.animateScheduled.getTime();
-            nextInterval -= (new Date()).getTime() - this.animatePause.getTime();
-        }
+            nextInterval = this.settings.get('message_animate_interval');
         if (!this.animateScheduled || nextInterval < 0) {
             nextInterval = 0;
         }
@@ -165,12 +170,20 @@ Fontana.GUI = (function ($) {
         this.animateScheduled = new Date();
     };
 
+
+    /**
+     * Stop scheduling animations
+     */
+    GUI.prototype.stopAnimation = function() {
+        clearTimeout(this.animateTimer);
+        this.animateScheduled = null;
+    };
+
     /**
      * Transition from one message to the next one
      */
-    GUI.prototype.animateMessages = function (once) {
+    GUI.prototype.animateMessages = function () {
         var self = this, next, effectName, nextTime;
-        once = !!once;
         if (!this.effect) {
             effectName = this.settings.get('effect');
             this.effect = new Fontana.effects[effectName](this.container, '.fontana-message');
@@ -181,7 +194,6 @@ Fontana.GUI = (function ($) {
         } else {
             next = this.current.next();
         }
-
         // update time
         nextTime = $('time', next);
         nextTime.text(Fontana.utils.prettyDate(nextTime.attr('title')));
@@ -190,7 +202,7 @@ Fontana.GUI = (function ($) {
             // cleanup
             self.current = next;
             self.purgeMessages.call(self);
-            if (!once) {
+            if (!self.paused) {
                 self.scheduleAnimation.call(self);
             }
         });
@@ -202,23 +214,23 @@ Fontana.GUI = (function ($) {
      * Start the fountain in the given container
      */
     GUI.prototype.start = function (node) {
-        this.container = node;
-        this.updateStyle();
-        this.clear();
-        this.setupDatasourceListener();
-        this.datasource.getMessages();
+        if (!this.started) {
+            this.container = node;
+            this.updateStyle();
+            this.setupDatasourceListener();
+            this.datasource.getMessages();
+            this.started = true;
+        }
     };
 
     /**
      * Stop all running timers
      */
     GUI.prototype.pause = function () {
-        if (!this.paused) {
+        if (this.started && !this.paused) {
+            this.destroyDatasourceListener();
+            this.stopAnimation();
             this.paused = true;
-            this.datasource.unbind('messages', this.datasourceListener);
-            this.datasourceListener = null;
-            window.clearTimeout(this.animateTimer);
-            this.animatePause = new Date();
         }
     };
 
@@ -237,20 +249,15 @@ Fontana.GUI = (function ($) {
     /**
      * Reset the messages
      */
-    GUI.prototype.reset = function () {
-        this.current = null;
-        this.animateScheduled = null;
-        this.animatePause = null;
-        this.container.empty();
-    };
-
-    /**
-     * Reset the messages and stop all timers
-     */
     GUI.prototype.clear = function () {
-        this.pause();
-        this.reset();
-        this.animatePause = null;
+        if (this.started) {
+            this.destroyDatasourceListener();
+            this.datasource.stop();
+            this.stopAnimation();
+            this.container.empty();
+            this.paused = false;
+            this.started = false;
+        }
     };
 
     return GUI;
