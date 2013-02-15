@@ -128,10 +128,27 @@ Fontana.datasources = (function ($) {
                     self.updateSinceId(results);
                     self.trigger('messages', results);
                 }
+                else if (self.refreshTimeout == null) {
+                    // Notify if there are no messages on the first try.
+                    self.trigger('messages', [{
+                        'created_at': new Date().toString(),
+                        'text': 'Sorry, Twitter found no tweets matching your search&nbsp;terms.',
+                        'from_user': 'tweetfontana',
+                        'profile_image_url': 'http://api.twitter.com/1/users/profile_image/tweetfontana'
+                    }]);
+                }
+            }
+            else {
+                self.trigger('messages', [{
+                    'created_at': new Date().toString(),
+                    'text': 'Sorry, an error occurred while fetching&nbsp;tweets.',
+                    'from_user': 'tweetfontana',
+                    'profile_image_url': 'http://api.twitter.com/1/users/profile_image/tweetfontana'
+                }]);
             }
             self.refreshTimeout = window.setTimeout(function () {
                 self.getMessages.call(self)
-            }, 45 * 1000);
+            }, 5 * 1000);
         });
     };
 
