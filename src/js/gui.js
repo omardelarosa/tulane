@@ -39,7 +39,6 @@ Fontana.GUI = (function ($) {
         this.settings = settings;
         this.animateTimer = -1;
         this.animateScheduled = null;
-        this.animatePause = null;
         this.current = null;
         this.effect = null;
         this.style_settings = [ 'font_face', 'text_color', 'custom_css',
@@ -131,7 +130,9 @@ Fontana.GUI = (function ($) {
      * Create HTML from a datasource object
      */
     GUI.prototype.formatMessage = function (message) {
-        message.html = twttr.txt.autoLink(message.text, {target: '_blank'});
+        if (!message.html && message.text) {
+            message.html = twttr.txt.autoLink(message.text, {target: '_blank'});
+        }
         return $.tmpl(this.settings.get('message_template'), message);
     };
 
@@ -243,7 +244,6 @@ Fontana.GUI = (function ($) {
             this.paused = false;
             this.setupDatasourceListener();
             this.scheduleAnimation();
-            this.animatePause = null;
         }
     };
 
