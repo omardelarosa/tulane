@@ -85,7 +85,7 @@ Fontana.config.SettingsGUI = (function ($) {
     /**
      * Load and initialize the settings panel
      */
-    SettingsGUI.prototype.draw = function () {
+    SettingsGUI.prototype.draw = function (callback) {
         var self = this;
 
         this.container.empty();
@@ -181,6 +181,10 @@ Fontana.config.SettingsGUI = (function ($) {
             try {
                 twttr.widgets.load();
             } catch (e) { }
+
+            if (callback) {
+                callback();
+            }
         });
     };
 
