@@ -19,3 +19,5 @@ javascripts:
         - src/js/fountain.js
     demo:
         - src/js/demo.js
+    crowdconvergence:
+        - src/js/crowdconvergence.js
