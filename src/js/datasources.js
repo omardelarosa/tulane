@@ -66,6 +66,12 @@ by looking for the following HTML:
 This is only done once on initialisation, this means that the HTML
 datasource triggers the `messages` event each time `getMessages`
 is called but will not detect any new messages added to the container.
+
+== CrowdConvergence ==
+
+This datasource will get messages from a given Crowd Convergence JSON feed URL.
+
+This is only done once on initialisation!
 */
 
 
@@ -73,7 +79,7 @@ var Fontana = window.Fontana || {};
 
 
 Fontana.datasources = (function ($) {
-    var Static, Twitter, HTML;
+    var Static, Twitter, HTML, CrowdConvergence;
 
     /**
      * Static datasource.
@@ -210,10 +216,84 @@ Fontana.datasources = (function ($) {
     window.MicroEvent.mixin(HTML);
 
 
+    /**
+     * CrowdConvergence datasource
+     *
+     * Constructor takes a Crowd Convergence JSON feed URL.
+     */
+    CrowdConvergence = function (url) {
+        this.url = url;
+    };
+
+    CrowdConvergence.url_re = /^https\:\/\/secure\.crowdconvergence\.com\/output\/json\/(\w+)\/([0-9]+)\/?$/;
+
+    CrowdConvergence.prototype.validateUrl = function () {
+        return CrowdConvergence.url_re.test(this.url);
+    };
+
+    /**
+     * Covert the messages objects from the CrowdConvergence response
+     * to the Twitter Search response format.
+     */
+    CrowdConvergence.prototype.transformMessages = function (messages) {
+        return $.map(messages, function (message) {
+            var returnValue = $.extend({}, message);
+            returnValue.created_at = message.timestamp;
+            returnValue.from_user = message.user_screen_name;
+            returnValue.profile_image_url = message.avatar;
+            return returnValue;
+        });
+    };
+
+    CrowdConvergence.prototype.getMessages = function () {
+        var self = this;
+        if (self.validateUrl()) {
+            $.ajax({
+                url: this.url + '?callback=?',
+                dataType : "jsonp",
+                timeout : 60000})
+            .success(function (data) {
+                if (data.length) {
+                    self.trigger('messages', self.transformMessages(data));
+                }
+                else {
+                    // Notify if there are no messages on the first try.
+                    self.trigger('messages', [{
+                        'created_at': new Date().toString(),
+                        'text': 'Sorry, there are no messages.',
+                        'from_user': 'tweetfontana',
+                        'profile_image_url': 'http://api.twitter.com/1/users/profile_image/tweetfontana'
+                    }]);
+                }
+            })
+            .error(function() {
+                self.trigger('messages', [{
+                    'created_at': new Date().toString(),
+                    'text': 'Sorry, an error occurred while fetching&nbsp;messages.',
+                    'from_user': 'tweetfontana',
+                    'profile_image_url': 'http://api.twitter.com/1/users/profile_image/tweetfontana'
+                }]);
+            });
+        }
+        else {
+            self.trigger('messages', [{
+                'created_at': new Date().toString(),
+                'text': 'Invalid Crowd Convergence feed url',
+                'from_user': 'tweetfontana',
+                'profile_image_url': 'http://api.twitter.com/1/users/profile_image/tweetfontana'
+            }]);
+        }
+    };
+
+    CrowdConvergence.prototype.stop = function () {};
+
+    window.MicroEvent.mixin(CrowdConvergence);
+
     return {
         'Static': Static,
         'Twitter': Twitter,
-        'HTML': HTML
+        'HTML': HTML,
+        'CrowdConvergence': CrowdConvergence
     };
 
 }(window.jQuery));
