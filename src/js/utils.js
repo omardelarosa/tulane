@@ -11,6 +11,10 @@ Fontana.utils = (function ($) {
             monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun",
                            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
 
+        if (isNaN(date)) {
+            return time;
+        }
+
         if (isNaN(day_diff) || day_diff < 0 || day_diff >= 31) {
             if (day_diff <= 365) {
                 return date.getDate() + ' ' + monthNames[date.getMonth()];
