@@ -21,7 +21,7 @@ $(function () {
         pair = params[i].split('=')
         key = decodeURIComponent(pair[0]);
         value = decodeURIComponent(pair[1]);
-        if (key == 'url') {
+        if (key == 'feed') {
             feed = value;
         }
     }

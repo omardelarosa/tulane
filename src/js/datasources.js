@@ -242,8 +242,9 @@ Fontana.datasources = (function ($) {
         return $.map(messages, function (message) {
             var returnValue = $.extend({}, message);
             returnValue.from_user = message.user_screen_name;
-            returnValue.created_at = message.date_timestamp;
+            returnValue.created_at = message.date_unix ? message.date_timestamp : new Date().toString();
             returnValue.html = message.text;
+            returnValue.profile_image_url = message.profile_image_url || 'http://api.twitter.com/1/users/profile_image/CrowdConverge';
             return returnValue;
         });
     };
