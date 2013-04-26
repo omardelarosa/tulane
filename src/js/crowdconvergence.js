@@ -3,7 +3,7 @@
  */
 
 $(function () {
-    var settings,settingsGUI, data, fontana;
+    var settings, settingsGUI, data, fontana, params, i, pair, key, value, feed;
 
     // Create the settings and the settings panel
     settings = new Fontana.config.Settings();
@@ -16,7 +16,16 @@ $(function () {
     });
 
     // Setup the actual fountain
-    data = new Fontana.datasources.CrowdConvergence('https://secure.crowdconvergence.com/output/json/twitterfontana/71/');
+    params = window.location.search.substring(1).replace(/\+/g, ' ').split('&');
+    for (i = 0; i < params.length; i++) {
+        pair = params[i].split('=')
+        key = decodeURIComponent(pair[0]);
+        value = decodeURIComponent(pair[1]);
+        if (key == 'url') {
+            feed = value;
+        }
+    }
+    data = new Fontana.datasources.CrowdConvergence(feed);
     fontana = new Fontana.GUI(data, settings);
     fontana.start($('#twitter-fontana'));
 

@@ -223,9 +223,12 @@ Fontana.datasources = (function ($) {
      */
     CrowdConvergence = function (url) {
         this.url = url;
+        this.params = {
+            'since': Math.floor((new Date().getTime() - (3*60*60*1000)) / 1000)
+        };
     };
 
-    CrowdConvergence.url_re = /^https\:\/\/secure\.crowdconvergence\.com\/output\/json\/(\w+)\/([0-9]+)\/?$/;
+    CrowdConvergence.url_re = /^https\:\/\/secure\.crowdconvergence\.com\/output\/json\/([\w-]+)\/([0-9]+)\/?$/;
 
     CrowdConvergence.prototype.validateUrl = function () {
         return CrowdConvergence.url_re.test(this.url);
@@ -238,9 +241,9 @@ Fontana.datasources = (function ($) {
     CrowdConvergence.prototype.transformMessages = function (messages) {
         return $.map(messages, function (message) {
             var returnValue = $.extend({}, message);
-            returnValue.created_at = message.timestamp;
             returnValue.from_user = message.user_screen_name;
-            returnValue.profile_image_url = message.avatar;
+            returnValue.created_at = message.date_timestamp;
+            returnValue.html = message.text;
             return returnValue;
         });
     };
@@ -250,11 +253,14 @@ Fontana.datasources = (function ($) {
         if (self.validateUrl()) {
             $.ajax({
                 url: this.url + '?callback=?',
-                dataType : "jsonp",
-                timeout : 60000})
+                dataType: "jsonp",
+                timeout: 60000,
+                data: this.params
+            })
             .success(function (data) {
                 if (data.length) {
                     self.trigger('messages', self.transformMessages(data));
+                    self.updateSince(data);
                 }
                 else {
                     // Notify if there are no messages on the first try.
@@ -283,9 +289,21 @@ Fontana.datasources = (function ($) {
                 'profile_image_url': 'http://api.twitter.com/1/users/profile_image/tweetfontana'
             }]);
         }
+        self.refreshTimeout = window.setTimeout(function () {
+            self.getMessages.call(self)
+        }, 120 * 1000);
     };
 
-    CrowdConvergence.prototype.stop = function () {};
+    CrowdConvergence.prototype.stop = function () {
+        window.clearTimeout(this.refreshTimeout);
+    };
+
+    CrowdConvergence.prototype.updateSince = function (messages) {
+        var self = this;
+        messages.map(function (message) {
+            self.params.since = Math.max(self.params.since, message.date_unix);
+        });
+    };
 
     window.MicroEvent.mixin(CrowdConvergence);
 
