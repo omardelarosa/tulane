@@ -224,7 +224,7 @@ Fontana.datasources = (function ($) {
     CrowdConvergence = function (url) {
         this.url = url;
         this.params = {
-            'since': Math.floor((new Date().getTime() - (3*60*60*1000)) / 1000)
+            'since': Math.floor((new Date().getTime() - (24*60*60*1000)) / 1000)
         };
     };
 
