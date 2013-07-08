@@ -117,7 +117,6 @@ Fontana.datasources = (function ($) {
         var self = this;
         $.getJSON(this.search_url, this.params, function (data, status) {
             var results;
-            console.log(data, status)
             if (status === 'success') {
                 results = self.transformMessages(data.statuses);
                 if (results && results.length) {
