@@ -9,15 +9,13 @@ URL = 'https://api.twitter.com/1.1/search/tweets.json'
 RESPONSE_HEADERS = ['content-type', 'cache-control', 'pragma', 'expires'
                     'x-rate-limit-limit', 'x-rate-limit-remaining',
                     'x-rate-limit-reset']
-CONFIG_FILE = os.path.abspath(os.path.join(os.path.dirname(__file__),
-                                           '../twitter-auth.conf'))
+BASE_DIR = os.path.dirname(__file__)
 
+p = lambda d:  os.path.abspath(os.path.join(BASE_DIR, d))
 app = Flask('twitter')
-conf = ConfigObj(CONFIG_FILE)
+conf = ConfigObj(p('../twitter-auth.conf'))
 auth = OAuth1(conf.get('consumer-key', ''), conf.get('consumer-secret', ''),
               conf.get('access-token', ''), conf.get('access-secret', ''))
-
-
 
 
 @app.route('/api/twitter-search/')
@@ -31,5 +29,9 @@ def hello():
 
 
 if __name__ == "__main__":
+    from werkzeug.wsgi import SharedDataMiddleware
     app.debug = True
+    app.wsgi_app = SharedDataMiddleware(app.wsgi_app, {
+        '/': p('../static/')
+    })
     app.run()

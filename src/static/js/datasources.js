@@ -105,18 +105,11 @@ Fontana.datasources = (function ($) {
      * Constructor takes a query for Twitter's search API.
      */
     Twitter = function (q) {
-        this.transformResponse = false;
         this.params = {
             'since_id': 1
         }
-        if (q.indexOf('favorites:') == 0 && q.split('favorites:').length > 1) {
-            this.params.screen_name = q.split('favorites:')[1].split(' ')[0];
-            this.search_url = 'http://api.twitter.com/1/favorites.json?callback=?';
-            this.transformResponse = true;
-        } else {
-            this.search_url = 'http://search.twitter.com/search.json?result_type=recent&callback=?';
-            this.params.q = q
-        }
+        this.search_url = '/api/twitter-search/?result_type=recent&callback=?';
+        this.params.q = q;
         this.refreshTimeout = null;
     };
 
@@ -124,12 +117,9 @@ Fontana.datasources = (function ($) {
         var self = this;
         $.getJSON(this.search_url, this.params, function (data, status) {
             var results;
+            console.log(data, status)
             if (status === 'success') {
-                if (self.transformResponse) {
-                    results = self.transformMessages(data);
-                } else {
-                    results = data.results;
-                }
+                results = self.transformMessages(data.statuses);
                 if (results && results.length) {
                     self.updateSinceId(results);
                     self.trigger('messages', results);
@@ -140,7 +130,7 @@ Fontana.datasources = (function ($) {
                         'created_at': new Date().toString(),
                         'text': 'Sorry, Twitter found no tweets matching your search&nbsp;terms.',
                         'from_user': 'tweetfontana',
-                        'profile_image_url': 'http://api.twitter.com/1/users/profile_image/tweetfontana'
+                        'profile_image_url': '/img/twitterfontana.png'
                     }]);
                 }
             }
@@ -149,7 +139,7 @@ Fontana.datasources = (function ($) {
                     'created_at': new Date().toString(),
                     'text': 'Sorry, an error occurred while fetching&nbsp;tweets.',
                     'from_user': 'tweetfontana',
-                    'profile_image_url': 'http://api.twitter.com/1/users/profile_image/tweetfontana'
+                    'profile_image_url': '/img/twitterfontana.png'
                 }]);
             }
             self.refreshTimeout = window.setTimeout(function () {
@@ -200,9 +190,7 @@ Fontana.datasources = (function ($) {
                 'created_at': new Date().toString(),
                 'text': $(this).find('q').text(),
                 'from_user': $(this).find('cite').text(),
-                'profile_image_url':
-                    'http://api.twitter.com/1/users/profile_image/' +
-                        $(this).find('cite').text()
+                'profile_image_url': $(this).find('cite').data('profile-image-url')
             });
         });
     };
