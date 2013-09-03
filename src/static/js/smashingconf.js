@@ -6,7 +6,7 @@ $(function () {
     var settings, data, fontana, query;
 
     query = '#smashingconf OR @smashingconf OR #smashingconf2012 ' +
-            'OR #smashingconf2013 OR smashingconf.com OR from:@smashingconf'
+            'OR #smashingconf2013 OR smashingconf.com OR from:@smashingconf';
 
     // Create the settings and the settings panel
     settings = new Fontana.config.Settings();
