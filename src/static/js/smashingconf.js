@@ -12,7 +12,7 @@ $(function () {
     settings = new Fontana.config.Settings();
     settings.update({
         effect: 'Scroll',
-        font_face: "'Bree Serif', sans-serif",
+        font_face: "'Proxima Nova', sans-serif",
         bg_color: '#4db7db',
         special_color: '#eb6933',
         text_color: '#333',
@@ -27,10 +27,6 @@ $(function () {
 });
 
 
-/* Google Webfonts */
-WebFontConfig = {
-    google: { families: ['Bree+Serif::latin'] }
-};
 (function() {
     var wf = document.createElement('script');
     wf.src = 'http://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
