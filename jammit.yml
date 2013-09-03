@@ -21,3 +21,5 @@ javascripts:
         - src/static/js/demo.js
     crowdconvergence:
         - src/static/js/crowdconvergence.js
+    smashingconf:
+        - src/static/js/smashingconf.js

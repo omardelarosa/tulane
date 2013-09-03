@@ -41,7 +41,7 @@ Fontana.config.Settings = (function ($) {
                           '.fontana-message {' +
                           '    background: ${box_bg};' +
                           '    color: ${text_color};' +
-                          '    font-family: ${font_face||"Open Sans, sans-serif"};' +
+                          '    font-family: {{html font_face||"Open Sans, sans-serif"}};' +
                           '}' +
                           '.fontana-message a {' +
                           '    color: ${special_color}' +
@@ -52,7 +52,7 @@ Fontana.config.Settings = (function ($) {
         'custom_css': '',
         'twitter_search': 'Twitter',
         'effect': 'Slide',
-        'font-face': "'Open Sans', sans-serif",
+        'font_face': "'Open Sans', sans-serif",
         'text_color': '#3f3f3f',
         'special_color': '#0072bc',
         'bg_color': '#0072bc',

@@ -154,6 +154,8 @@ Fontana.GUI = (function ($) {
         this.style_tag = $.tmpl("<style type='text/css'>" +
                 this.settings.get('style_template') +
             "</style>", options).appendTo("head");
+
+        console.log(this.style_tag)
     };
 
     /**

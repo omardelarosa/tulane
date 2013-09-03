@@ -11,21 +11,39 @@ RESPONSE_HEADERS = ['content-type', 'cache-control', 'pragma', 'expires'
                     'x-rate-limit-reset']
 BASE_DIR = os.path.dirname(__file__)
 
-p = lambda d:  os.path.abspath(os.path.join(BASE_DIR, d))
+p = lambda d: os.path.abspath(os.path.join(BASE_DIR, d))
 app = Flask('twitter')
-conf = ConfigObj(p('../twitter-auth.conf'))
-auth = OAuth1(conf.get('consumer-key', ''), conf.get('consumer-secret', ''),
-              conf.get('access-token', ''), conf.get('access-secret', ''))
+conf = {
+    'fontana': ConfigObj(p('../twitter-auth.conf')),
+    'smashingconf':  ConfigObj(p('../smashingconf-auth.conf')),
+}
+conf_auth = lambda key: OAuth1(conf[key].get('consumer-key', ''),
+                               conf[key].get('consumer-secret', ''),
+                               conf[key].get('access-token', ''),
+                               conf[key].get('access-secret', ''))
+auth = {
+    'fontana': conf_auth('fontana'),
+    'smashingconf': conf_auth('smashingconf'),
+}
 
 
-@app.route('/api/twitter-search/')
-def hello():
-    response = requests.get(URL, auth=auth, params=request.args)
+def twitter_search(auth, args):
+    response = requests.get(URL, auth=auth, params=args)
     headers = {}
     for k, v in response.headers.items():
         if k in RESPONSE_HEADERS:
             headers[k] = v
     return (response.text, response.status_code, headers)
+
+
+@app.route('/api/twitter-search/')
+def fontana():
+    return twitter_search(auth['fontana'], request.args)
+
+
+@app.route('/api/smashingconf/')
+def smashingconf():
+    return twitter_search(auth['smashingconf'], request.args)
 
 
 if __name__ == "__main__":
