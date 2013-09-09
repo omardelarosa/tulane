@@ -50,7 +50,11 @@ def twitter_authorisation_done():
 
 @app.route('/api/twitter/session/new/')
 def twitter_signin():
-    if not flask.request.args or (len(flask.request.args) == 1 and 'next' in flask.request.args):
+    """
+    Handles the Twitter oAuth flow.
+    """
+    args = flask.request.args
+    if not args or (len(args) == 1 and 'next' in args):
         return twitter_authorisation_begin()
     else:
         return twitter_authorisation_done()
@@ -58,6 +62,10 @@ def twitter_signin():
 
 @app.route('/api/twitter/session/')
 def twitter_session():
+    """
+    Check for an active Twitter session. Returns a JSON response with the
+    active sceen name or a 403 if there is no active session.
+    """
     if not flask.session.get('twitter_user_id'):
         return flask.abort(403, 'no active session')
     return (json.dumps({
@@ -65,13 +73,11 @@ def twitter_session():
             }), 200, {'content-type': 'application/json'})
 
 
-@app.route('/api/twitter/session/clear/', methods=['POST'])
-def twitter_signout():
-    flask.session.clear()
-    return 'OK'
-
 @app.route('/api/twitter/search/')
 def twitter_search():
+    """
+    Perform a Twitter search
+    """
     if not flask.session.get('twitter_user_id'):
         return flask.abort(403, 'no active session')
     token = {
@@ -79,6 +85,15 @@ def twitter_search():
         'oauth_token_secret': flask.session['twitter_oauth_token_secret']
     }
     return twitter.search(app.config, token, flask.request.args)
+
+
+@app.route('/api/session/clear/', methods=['POST'])
+def signout():
+    """
+    Perform a sign out, clears the user's session.
+    """
+    flask.session.clear()
+    return 'OK'
 
 
 def absolute_url(app, name):
