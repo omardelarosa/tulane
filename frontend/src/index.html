@@ -13,7 +13,7 @@ var $auth,
 
 function logged_in() {
     $.get('/api/twitter/session/').success(function (data) {
-        $auth.html('Hello ' + data['screen_name'] + ', <a href="/api/twitter/session/clear/" id="signout">Sign out</a>');
+        $auth.html('Hello ' + data['screen_name'] + ', <a href="/api/session/clear/" id="signout">Sign out</a>');
         get_tweets();
     }).error(function () {
         $auth.html(signin);
@@ -21,7 +21,7 @@ function logged_in() {
 }
 
 function get_tweets() {
-    $.get('/api/twitter/search?q=test').success(function (data) {
+    $.get('/api/twitter/search/?q=test').success(function (data) {
         console.log(data);
     });
 }
