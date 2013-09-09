@@ -1,8 +1,0 @@
-\.sass-cache
-\.idea
-build
-twitterfontana*.tgz
-src/twitter-auth.conf
-src/include
-src/lib
-src/local
