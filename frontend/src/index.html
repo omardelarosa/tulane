@@ -8,22 +8,34 @@
 <p id="auth"></p>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 <script>
-$(function () {
-    var signin = '<a href="/api/twitter/session/new/" id="signin">Sign in with Twitter</a>',
-        $auth = $('#auth');
+var $auth,
+    signin = '<a href="/api/twitter/session/new/" id="signin">Sign in with Twitter</a>';
+
+function logged_in() {
     $.get('/api/twitter/session/').success(function (data) {
         $auth.html('Hello ' + data['screen_name'] + ', <a href="/api/twitter/session/clear/" id="signout">Sign out</a>');
         get_tweets();
     }).error(function () {
         $auth.html(signin);
     });
+}
+
+function get_tweets() {
+    $.get('/api/twitter/search?q=test').success(function (data) {
+        console.log(data);
+    });
+}
+
+$(function () {
+    $auth = $('#auth');
+    logged_in();
 
     $auth.on('click', '#signin', function (e) {
         e.preventDefault();
         var x = screen.width / 2 - 700 / 2,
             y = screen.height / 2 - 450 / 2,
             pop = null;
-        pop = window.open($(this).attr('href'), new Date(), 'height=450,width=700,left='+x+',top='+y);
+        pop = window.open($(this).attr('href') + '?next=pop/twitter_success.html', new Date(), 'height=450,width=700,left='+x+',top='+y);
         pop.focus();
         return false;
     });
@@ -35,12 +47,6 @@ $(function () {
         });
         return false;
     });
-
-    function get_tweets() {
-        $.get('/api/twitter/search?q=test').success(function (data) {
-            console.log(data);
-        });
-    }
 });
 </script>
 </body>

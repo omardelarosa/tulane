@@ -1,14 +1,21 @@
+import flask
 import json
 import os
 import sys
-import flask
+import urlparse
 from fontana import twitter
 
 app = flask.Flask('fontana')
 
 
 def twitter_authorisation_begin():
+    """
+    Step 1 and 2 of the Twitter oAuth flow.
+    """
     callback = absolute_url(app, 'twitter_signin')
+    if 'next' in flask.request.args:
+        next = urlparse.urlsplit(flask.request.args['next']).path
+        callback = '%s?next=%s' % (callback, next)
     try:
         token = twitter.request_token(app.config, callback)
         flask.session['twitter_oauth_token'] = token['oauth_token']
@@ -19,6 +26,9 @@ def twitter_authorisation_begin():
 
 
 def twitter_authorisation_done():
+    """
+    Step 3 of the Twitter oAuth flow.
+    """
     if 'oauth_token' in flask.request.args:
         token = flask.request.args
         if flask.session['twitter_oauth_token'] != token['oauth_token']:
@@ -28,7 +38,10 @@ def twitter_authorisation_done():
         flask.session['twitter_oauth_token_secret'] = auth['oauth_token_secret']
         flask.session['twitter_user_id'] = auth['user_id']
         flask.session['twitter_screen_name'] = auth['screen_name']
-        return 'OK'
+        if 'next' in flask.request.args:
+            return flask.redirect(flask.request.args['next'])
+        else:
+            return 'OK'
     elif 'denied' in  flask.request.args:
         return flask.abort(403, 'oauth denied')
     else:
@@ -37,10 +50,10 @@ def twitter_authorisation_done():
 
 @app.route('/api/twitter/session/new/')
 def twitter_signin():
-    if flask.request.args:
-        return twitter_authorisation_done()
-    else:
+    if not flask.request.args or (len(flask.request.args) == 1 and 'next' in flask.request.args):
         return twitter_authorisation_begin()
+    else:
+        return twitter_authorisation_done()
 
 
 @app.route('/api/twitter/session/')
@@ -55,7 +68,7 @@ def twitter_session():
 @app.route('/api/twitter/session/clear/', methods=['POST'])
 def twitter_signout():
     flask.session.clear()
-    return '', 200
+    return 'OK'
 
 @app.route('/api/twitter/search/')
 def twitter_search():
