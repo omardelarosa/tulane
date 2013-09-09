@@ -12,7 +12,7 @@ def twitter_authorisation_begin():
     """
     Step 1 and 2 of the Twitter oAuth flow.
     """
-    callback = absolute_url(app, 'twitter_signin')
+    callback = absolute_url('twitter_signin')
     if 'next' in flask.request.args:
         next = urlparse.urlsplit(flask.request.args['next']).path
         callback = '%s?next=%s' % (callback, next)
@@ -96,7 +96,7 @@ def signout():
     return 'OK'
 
 
-def absolute_url(app, name):
+def absolute_url(name):
     """
     Flask's url_for with added SERVER_NAME
     """
