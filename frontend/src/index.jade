@@ -1,6 +1,51 @@
-!!!5
+!!!
 html
     head
         title TwitterFontana
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        link(rel="stylesheet", href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css")
     body
-        h1 TwitterFontana
+        .container
+            nav.navbar.navbar-default
+                .navbar-brand TwitterFontana
+                form#signin.navbar-right.hidden.navbar-form
+                    button.btn.btn-default(type="button")
+                        | Sign in with Twitter
+                #signout.navbar-right.hidden
+                    p.navbar-text(data-text="Hello {screen_name}")
+                    form.navbar-form.navbar-right
+                        button.btn.btn-default(type="button")
+                            | Sign out
+
+            script(src="//code.jquery.com/jquery.js")
+            script(src="/js/lib.min.js")
+            script(src="/js/twitterfontana.min.js")
+
+            :coffee
+                $ ->
+                    signIn = $("#signin")
+                    signOut = $("#signout")
+                    $('button', signIn).click ->
+                        auth.signIn(hasSignedIn)
+                    $('button', signOut).click ->
+                        auth.signOut(signedOut)
+
+                    hasSignedIn = ->
+                        auth.activeSession (data)->
+                            if (data)
+                                signedIn(data)
+                            else
+                                signedOut()
+
+                    signedIn = (data)->
+                        userText = $(".navbar-text", signOut)
+                        userText.html(nano(userText.data("text"), data))
+                        signIn.addClass("hidden")
+                        signOut.removeClass("hidden")
+
+                    signedOut = ->
+                        signIn.removeClass("hidden")
+                        signOut.addClass("hidden")
+
+                    auth = new TwitterAuth()
+                    hasSignedIn()

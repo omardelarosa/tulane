@@ -14,8 +14,7 @@ def twitter_authorisation_begin():
     """
     callback = absolute_url('twitter_signin')
     if 'next' in flask.request.args:
-        next = urlparse.urlsplit(flask.request.args['next']).path
-        callback = '%s?next=%s' % (callback, next)
+        callback = '%s?next=%s' % (callback, flask.request.args['next'])
     try:
         token = twitter.request_token(app.config, callback)
         flask.session['twitter_oauth_token'] = token['oauth_token']

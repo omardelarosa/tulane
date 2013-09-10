@@ -1,0 +1,13 @@
+!!!
+head
+    title Twitter sign in completed
+body
+    | This window should close automatically.
+    :coffee
+        win = window.opener
+        callback_match = window.location.search.match(/[?&]callback=([^&]+)(?:&|$)/)
+        if callback_match
+            callback = callback_match[1]
+        if win && callback && win[callback]
+            win[callback]()
+        window.close()
