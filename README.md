@@ -3,23 +3,27 @@
 TwitterFontana is a backchannel visualisation solution for the Twitter
 Search API v1.1.
 
-The Twitter API connection backend is written in Python & Flask and the
-Fontana visualisation frontend is written in HTML & CSS and
-Javascript & jQuery.
+The Twitter API connection backend is written in [Python] & [Flask] and the
+Fontana visualisation frontend is written in [Jade], [SASS] and [CoffeeScript].
 
 ## Getting started
 
 Alright, so there's some initial preparation and setup to perform to get
-the backend part working.
+the project working and ready for development.
 
-### Prepare
+### Software
 
 First of all, your development machine should be equipped with Python 2.6+
 and preferably [virtualenv] and [virtualenvwrapper]. This should be no
 problem on most Linux distributions, fairly easy on OS X and might be
 somewhat challenging on Windows (I have no experience with Python on Windows).
 
-Then, in order to use the Twitter API v1.1 you will need to create a
+For frontend development this project needs [nodejs + npm], [Grunt],
+[CoffeeScript] and [SASS] to be available.
+
+### Prepare
+
+In order to use the Twitter API v1.1 you will need to create a
 "application" at https://dev.twitter.com/.
 
 Also load up a browser tab with http://randomkeygen.com/, we are going to need
@@ -27,12 +31,13 @@ a random secret key soon.
 
 ### Setup
 
-With that out of the way, you can now "install" the backend in a virtualenv:
+With that out of the way, you can now "install" the project in a virtualenv:
 
 ``` shell
 $ mkvirtualenv twitterfontana
 $ workon twitterfontana
-$ pip install -r backend/requirements.txt
+$ pip install -r requirements.txt
+$ npm install
 ```
 
 Then you'll need to create a config file, let's save it as
@@ -70,6 +75,15 @@ and asked to "Authorize your application to use your account".
 After confirming access you will be redirected back to a page on
 the development server with the plain text string "OK".
 
+To verify if the frontend development part is working just run grunt,
+if everything is working you should see this output:
+
+``` shell
+$ grunt
+> Running "watch" task
+> Waiting...
+```
+
 ## Develop
 
 Cool, you got the initial set up out of the way. Luckily you don't need to
@@ -82,8 +96,22 @@ $ python backend/src/fontana.py backend/var/conf/fontana.conf
 > * Running on http://127.0.0.1:5000/
 ```
 
-Go to `http://127.0.0.1:5000/` in your favorite browser and check if
-everything works.
+And in another terminal window you can keep running Grunt:
 
+``` shell
+$ grunt
+> Running "watch" task
+> Waiting...
+```
+
+
+
+[Python]: http://www.python.org/
+[Flask]: http://flask.pocoo.org/
 [virtualenv]: http://www.virtualenv.org/
 [virtualenvwrapper]: http://virtualenvwrapper.readthedocs.org/
+[nodejs + npm]: http://nodejs.org/
+[Grunt]: http://gruntjs.com/
+[CoffeeScript]: http://coffeescript.org/
+[SASS]: http://sass-lang.com/
+[Jade]: http://jade-lang.com/
