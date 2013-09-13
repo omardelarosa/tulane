@@ -19,7 +19,12 @@ module.exports = (grunt) ->
                     interrupt: true
             js:
                 files: ['frontend/src/js/**/*.js', 'frontend/src/js/**/*.coffee']
-                tasks: ['concat:main', 'uglify:main']
+                tasks: ['concat', 'uglify']
+                options:
+                    interrupt: true
+            img:
+                files: ['frontend/src/img/*.*'],
+                tasks: ['imagemin']
                 options:
                     interrupt: true
 
@@ -45,11 +50,11 @@ module.exports = (grunt) ->
                     return src
             main:
                 files:
-                    'frontend/httpdocs/js/twitterfontana.min.js': [
+                    'frontend/httpdocs/js/twitterfontana.js': [
                         'frontend/src/js/*.js'
                         'frontend/src/js/*.coffee'
                     ]
-                    'frontend/httpdocs/js/lib.min.js': [
+                    'frontend/httpdocs/js/lib.js': [
                         'frontend/src/js/lib/*'
                     ]
 
@@ -59,8 +64,8 @@ module.exports = (grunt) ->
                 preserveComments: false
             main:
                 files:
-                    'frontend/httpdocs/js/twitterfontana.min.js': 'frontend/httpdocs/js/twitterfontana.min.js'
-                    'frontend/httpdocs/js/lib.min.js': 'frontend/httpdocs/js/lib.min.js'
+                    'frontend/httpdocs/js/twitterfontana.min.js': 'frontend/httpdocs/js/twitterfontana.js'
+                    'frontend/httpdocs/js/lib.min.js': 'frontend/httpdocs/js/lib.js'
 
         # compile sass to css
         compass:
@@ -73,8 +78,20 @@ module.exports = (grunt) ->
                     force: true
                     outputStyle: 'compressed'
 
+        # optimize images
+        imagemin: {
+            main: {
+                files: [{
+                    expand: true,
+                    cwd: 'frontend/src/img/',
+                    src: ['*.{png,jpg,jpeg,gif}'],
+                    dest: 'frontend/httpdocs/img/'
+                }]
+            }
+        }
+
     # tasks
-    grunt.registerTask('default', ['watch'])
+    grunt.registerTask('default', ['watch', 'imagemin'])
 
     # include
     grunt.loadNpmTasks 'grunt-contrib-watch'
@@ -82,3 +99,4 @@ module.exports = (grunt) ->
     grunt.loadNpmTasks 'grunt-contrib-concat'
     grunt.loadNpmTasks 'grunt-contrib-uglify'
     grunt.loadNpmTasks 'grunt-contrib-jade'
+    grunt.loadNpmTasks 'grunt-contrib-imagemin';

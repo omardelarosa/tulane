@@ -1,17 +1,18 @@
 {
-  "name": "twitterfontana",
-  "version": "2.0.0",
-  "description": "TwitterFontana is a backchannel visualisation solution for the Twitter",
-  "author": "Jaap Roes",
-  "license": "MIT",
-    "dependencies": {
-        "grunt": "0.4",
-        "grunt-contrib-jade": "0.8",
-        "grunt-contrib-compass": "0.5",
-        "grunt-contrib-uglify": "0.2",
-        "grunt-contrib-concat": "0.3",
-        "grunt-contrib-watch": "0.5",
-        "coffee-script": "*"
-
+    "name":"TwitterFontana",
+    "repository":"https://github.com/eightmedia/TwitterFontana",
+    "version":"2.0.0",
+    "description":"TwitterFontana is a backchannel visualisation solution for the Twitter",
+    "author":"Jaap Roes",
+    "license":"MIT",
+    "dependencies":{
+        "grunt":"0.4",
+        "grunt-contrib-jade":"0.8",
+        "grunt-contrib-compass":"0.5",
+        "grunt-contrib-uglify":"0.2",
+        "grunt-contrib-concat":"0.3",
+        "grunt-contrib-watch":"0.5",
+        "grunt-contrib-imagemin":"0.3",
+        "coffee-script":"*"
     }
 }
