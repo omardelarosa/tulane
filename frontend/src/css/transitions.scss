@@ -1,0 +1,46 @@
+@import "compass";
+@import "animate";
+
+
+.fontana {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    overflow: hidden;
+
+    .message {
+        display: block;
+        position: absolute;
+        top: -10%;
+        opacity: 0;
+        z-index: 0;
+        @include transition();
+
+        &.prev {
+            top: 10%;
+            opacity: .3;
+            z-index: 1;
+            @include transition();
+        }
+
+        &.focus {
+            top: 40%;
+            opacity: 1;
+            z-index: 3;
+            @include transition();
+        }
+
+        &.next {
+            top: 75%;
+            opacity: .3;
+            z-index: 2;
+            @include transition();
+        }
+
+        &.next + .message:not(.prev) {
+            top: 100%;
+        }
+    }
+}

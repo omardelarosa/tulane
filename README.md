@@ -19,7 +19,7 @@ problem on most Linux distributions, fairly easy on OS X and might be
 somewhat challenging on Windows (I have no experience with Python on Windows).
 
 For frontend development this project needs [nodejs + npm], [Grunt],
-[CoffeeScript] and [SASS] to be available.
+and [Ruby], [RubyGems] & [Bundler] to be available.
 
 ### Prepare
 
@@ -38,6 +38,7 @@ $ mkvirtualenv twitterfontana
 $ workon twitterfontana
 $ pip install -r requirements.txt
 $ npm install
+$ bundle install
 ```
 
 Then you'll need to create a config file, let's save it as
@@ -115,3 +116,6 @@ $ grunt
 [CoffeeScript]: http://coffeescript.org/
 [SASS]: http://sass-lang.com/
 [Jade]: http://jade-lang.com/
+[Ruby]: https://www.ruby-lang.org/
+[RubyGems]: http://rubygems.org/
+[Bundler]: http://bundler.io/

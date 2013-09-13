@@ -77,6 +77,7 @@ module.exports = (grunt) ->
                     noLineComments: true
                     force: true
                     outputStyle: 'compressed'
+                    require: ['animate']
 
         # optimize images
         imagemin: {
