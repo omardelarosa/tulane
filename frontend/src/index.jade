@@ -4,10 +4,15 @@ html
         title TwitterFontana
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         link(rel="stylesheet", href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css")
+        #link(rel="stylesheet", href="//netdna.bootstrapcdn.com/bootswatch/3.0.0/amelia/bootstrap.min.css")
+        #link(rel="stylesheet", href="//netdna.bootstrapcdn.com/bootswatch/3.0.0/cerulean/bootstrap.min.css")
+        #link(rel="stylesheet", href="//netdna.bootstrapcdn.com/bootswatch/3.0.0/cosmo/bootstrap.min.css")
+        link(rel="stylesheet", href="//netdna.bootstrapcdn.com/bootswatch/3.0.0/united/bootstrap.min.css")
     body
-        .container
-            nav.navbar.navbar-default
-                .navbar-brand TwitterFontana
+        nav.navbar.navbar-inverse.navbar-fixed-top
+                .navbar-brand
+                    img(src="/img/logo.png", width="16", height="16", alt="")
+                    | &nbsp;TwitterFontana
                 form#signin.navbar-right.hidden.navbar-form
                     button.btn.btn-default(type="button")
                         | Sign in with Twitter
@@ -16,36 +21,92 @@ html
                     form.navbar-form.navbar-right
                         button.btn.btn-default(type="button")
                             | Sign out
+        .container.fontana.media-list
 
-            script(src="//code.jquery.com/jquery.js")
-            script(src="/js/lib.min.js")
-            script(src="/js/twitterfontana.min.js")
+            #msg1.message.media.well
+                figure.pull-left.media-object
+                    img.avatar.img-thumbnail(src="/img/avatar.png", width="64", height="64", alt="")
+                .media-body
+                    p.media-heading
+                        cite
+                            span.name Tweet Fontana
+                            small.text-muted
+                                span.screen_name @tweetfontana
+                                span.time.pull-right Just now
+                    p.text.lead
+                        | Welcome to the brand new TwitterFontana! Completely revamped to work with Twitter's API v1.1
 
-            :coffee
-                $ ->
-                    signIn = $("#signin")
-                    signOut = $("#signout")
-                    $('button', signIn).click ->
-                        auth.signIn(hasSignedIn)
-                    $('button', signOut).click ->
-                        auth.signOut(signedOut)
+            #msg2.message.media.well
+                figure.pull-left.media-object
+                    img.avatar.img-thumbnail(src="/img/avatar.png", width="64", height="64", alt="")
+                .media-body
+                    p.media-heading
+                        cite
+                            span.name Tweet Fontana
+                            small.text-muted
+                                span.screen_name @tweetfontana
+                                span.time.pull-right Just now
+                    p.text.lead
+                        | TwitterFontana focuses on customizability and control, check out the display controls at the
+                        | bottom of the screen!
 
-                    hasSignedIn = ->
-                        auth.activeSession (data)->
-                            if (data)
-                                signedIn(data)
-                            else
-                                signedOut()
+            #msg3.message.media.well
+                figure.pull-left.media-object
+                    img.avatar.img-thumbnail(src="/img/avatar.png", width="64", height="64", alt="")
+                .media-body
+                    p.media-heading
+                        cite
+                            span.name Tweet Fontana
+                            small.text-muted
+                                span.screen_name @tweetfontana
+                                span.time.pull-right Just now
+                    p.text.lead
+                        | To display your own timeline, or perform a Twitter search, start by signing in with your
+                        | Twitter account!
 
-                    signedIn = (data)->
-                        userText = $(".navbar-text", signOut)
-                        userText.html(nano(userText.data("text"), data))
-                        signIn.addClass("hidden")
-                        signOut.removeClass("hidden")
+        script(src="//code.jquery.com/jquery.js")
+        script(src="/js/lib.min.js")
+        script(src="/js/twitterfontana.min.js")
 
-                    signedOut = ->
-                        signIn.removeClass("hidden")
-                        signOut.addClass("hidden")
+        :coffee
+            $ ->
+                signIn = $("#signin")
+                signOut = $("#signout")
+                auth = new Fontana.TwitterAuth()
+                container = $(".fontana")
 
-                    auth = new TwitterAuth()
-                    hasSignedIn()
+                $('button', signIn).click ->
+                    auth.signIn(checkSession)
+                $('button', signOut).click ->
+                    auth.signOut(checkSession)
+
+                checkSession = ->
+                    auth.activeSession (data)->
+                        if (data)
+                            isSignedIn(data)
+                        else
+                            isSignedOut()
+
+                isSignedIn = (data)->
+                    userText = $(".navbar-text", signOut)
+                    userText.html(nano(userText.data("text"), data))
+                    signIn.addClass("hidden")
+                    signOut.removeClass("hidden")
+                    twitterFontana()
+
+                isSignedOut = ->
+                    signIn.removeClass("hidden")
+                    signOut.addClass("hidden")
+                    HTMLFontana()
+
+                twitterFontana = ->
+                    datasource = new Fontana.datasources.TwitterSearch("#FridayThe13th")
+                    visualizer = new Fontana.Visualizer(container, datasource)
+                    visualizer.start()
+
+                HTMLFontana = ->
+                    datasource = new Fontana.datasources.HTML(container)
+                    visualizer = new Fontana.Visualizer(container, datasource)
+                    visualizer.start()
+
+                checkSession()
