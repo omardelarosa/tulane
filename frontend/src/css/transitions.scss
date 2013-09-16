@@ -1,8 +1,12 @@
 @import "compass";
 @import "animate";
 
+@include animate-attention(tada);
+@include animate-special(hinge);
+@include animate-lightSpeed(in out);
 
-.fontana {
+
+.lightspeed {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -11,32 +15,90 @@
     overflow: hidden;
 
     .message {
-        display: block;
+        -webkit-transform: translate3d(0, 0, 0);
+        opacity: 0;
+        position: absolute;
+        top: 10%;
+
+        &.focus {
+            @include animation(lightSpeedIn .5s 1);
+        }
+
+        &.prev {
+            @include animation(lightSpeedOut .5s 1);
+        }
+    }
+}
+
+.hinge {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    overflow: hidden;
+
+    .message {
+        -webkit-transform: translate3d(0, 0, 0);
+        display: none;
+        z-index: 0;
+        position: absolute;
+        top: 35%;
+        opacity: 1;
+        margin-top: 0;
+
+        &.focus {
+            display: block;
+            z-index: 2;
+        }
+
+        &.next {
+            display: block;
+            z-index: 1;
+        }
+
+        &.prev {
+            display: block;
+            z-index: 3;
+            @include animation(hinge 1.5s 1);
+            @include animation-fill-mode(forwards);
+        }
+    }
+}
+
+
+.simple-scroll {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    overflow: hidden;
+
+    .message {
+        -webkit-transform: translate3d(0, 0, 0);
         position: absolute;
         top: -10%;
         opacity: 0;
         z-index: 0;
-        @include transition();
+        @include single-transition(all, 1.5s, ease-in-out);
 
         &.prev {
             top: 10%;
             opacity: .3;
             z-index: 1;
-            @include transition();
         }
 
         &.focus {
             top: 40%;
             opacity: 1;
             z-index: 3;
-            @include transition();
         }
 
         &.next {
-            top: 75%;
+            top: 70%;
             opacity: .3;
             z-index: 2;
-            @include transition();
         }
 
         &.next + .message:not(.prev) {
