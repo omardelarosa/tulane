@@ -1,0 +1,20 @@
+<!DOCTYPE html><head><title>Twitter sign in completed</title></head><body>This window should close automatically.<script type="text/javascript">
+(function() {
+  var callback, callback_match, win;
+
+  win = window.opener;
+
+  callback_match = window.location.search.match(/[?&]callback=([^&]+)(?:&|$)/);
+
+  if (callback_match) {
+    callback = callback_match[1];
+  }
+
+  if (win && callback && win[callback]) {
+    win[callback]();
+  }
+
+  window.close();
+
+}).call(this);
+</script></body>
