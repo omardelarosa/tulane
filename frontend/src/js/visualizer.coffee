@@ -71,8 +71,11 @@ class Fontana.Visualizer
     renderMessages: (messages, initial=false)->
         messages.reverse().forEach((message)=>
             if !$("##{message.id}").length
-                message.text = twttr.txt.autoLinkWithJSON(
-                    message.text, message.entities, targetBlank: true)
+                if message.entities
+                    message.text = twttr.txt.autoLinkWithJSON(
+                        message.text, message.entities, targetBlank: true)
+                else
+                    message.text = twttr.txt.autoLink(message.text, targetBlank: true)
                 messageNode = $(nano(messageTemplate, message))
                 @updateTime(messageNode)
                 @container.prepend(messageNode))

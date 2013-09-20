@@ -1,0 +1,19 @@
+<!DOCTYPE html><html><head><title>TwitterFontana</title><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" class="bootstrap"><link rel="stylesheet" href="/css/transitions.css"></head><body><div class="fontana"><div id="msg0" class="message media well col-md-6 col-md-offset-3"><figure class="pull-left media-object"><img src="/img/avatar.png" width="64" height="64" alt="" class="avatar img-thumbnail"></figure><div class="media-body"><div class="media-heading"><cite><span class="name">Tweet Fontana</span><small class="text-muted"><span class="screen_name">@tweetfontana</span><span class="time pull-right">Just now</span></small></cite></div></div><div class="text lead">Sorry, due to Twitter's API v1.1 we had to rewrite TwitterFontana. This page is no longer available.</div></div><div id="msg1" class="message media well col-md-6 col-md-offset-3"><figure class="pull-left media-object"><img src="/img/avatar.png" width="64" height="64" alt="" class="avatar img-thumbnail"></figure><div class="media-body"><div class="media-heading"><cite><span class="name">Tweet Fontana</span><small class="text-muted"><span class="screen_name">@tweetfontana</span><span class="time pull-right">Just now</span></small></cite></div></div><div class="text lead">Go to http://twitterfontana.com and check out our new revamped version!</div></div></div><script src="/js/lib.min.js"></script><script src="/js/twitterfontana.min.js"></script><script type="text/javascript">
+(function() {
+  $(function() {
+    var container, visualizer;
+    container = $('.fontana');
+    visualizer = new Fontana.Visualizer(container, new Fontana.datasources.HTML(container));
+    return visualizer.start();
+  });
+
+}).call(this);
+</script><script>var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-30289566-2']);
+_gaq.push(['_setDomainName', 'twitterfontana.com']);
+_gaq.push(['_trackPageview']);
+    (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = 'http://www.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();</script></body></html>

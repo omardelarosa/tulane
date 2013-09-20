@@ -129,7 +129,7 @@
         $("link.bootswatch", document.head).remove();
         stylesheet = $(e.target).val();
         if (stylesheet) {
-          return $(document.head).append("<link rel='stylesheet' href='" + stylesheet + "' class='bootswatch'>");
+          return $("<link rel='stylesheet' href='" + stylesheet + "' class='bootswatch'>").insertAfter($('link.bootstrap'));
         }
       });
     };

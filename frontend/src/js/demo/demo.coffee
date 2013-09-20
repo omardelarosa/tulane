@@ -97,7 +97,7 @@ $ ->
             $("link.bootswatch", document.head).remove()
             stylesheet = $(e.target).val()
             if stylesheet
-                $(document.head).append("<link rel='stylesheet' href='#{stylesheet}' class='bootswatch'>")
+                $("<link rel='stylesheet' href='#{stylesheet}' class='bootswatch'>").insertAfter($('link.bootstrap'))
 
     rigTransitionSwitch = (settings)->
         select = $("#transition", settings)

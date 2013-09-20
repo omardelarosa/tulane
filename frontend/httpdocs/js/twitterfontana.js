@@ -470,9 +470,15 @@ the Twitter datasource) will provide a richer set of keys.
       messages.reverse().forEach(function(message) {
         var messageNode;
         if (!$("#" + message.id).length) {
-          message.text = twttr.txt.autoLinkWithJSON(message.text, message.entities, {
-            targetBlank: true
-          });
+          if (message.entities) {
+            message.text = twttr.txt.autoLinkWithJSON(message.text, message.entities, {
+              targetBlank: true
+            });
+          } else {
+            message.text = twttr.txt.autoLink(message.text, {
+              targetBlank: true
+            });
+          }
           messageNode = $(nano(messageTemplate, message));
           _this.updateTime(messageNode);
           return _this.container.prepend(messageNode);

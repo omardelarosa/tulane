@@ -37,6 +37,9 @@ module.exports = (grunt) ->
                     'frontend/httpdocs/index.html': [
                         'frontend/src/index.jade'
                     ],
+                    'frontend/httpdocs/fontana.html': [
+                        'frontend/src/fontana.jade'
+                    ],
                     'frontend/httpdocs/pop/twitter_success.html': [
                         'frontend/src/pop/twitter_success.jade'
                     ],

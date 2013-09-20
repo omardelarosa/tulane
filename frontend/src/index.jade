@@ -1,9 +1,17 @@
 !!!
 html
     head
-        title TwitterFontana
+        title Create visually engaging Twitter Walls with Twitter Fontana, display Tweets at conferences and other public events
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        link(rel="stylesheet", href="/bootstrap/css/bootstrap.min.css")
+        meta(name="description", content="With Twitter Fontana you can display Tweets on a big screen or a wall. It's a free & open source and has great customisation options.")
+        meta(property="og:title", content="Twitter Fontana")
+        meta(property="og:description", content="With Twitter Fontana you can display Tweets on a big screen or a wall. It's a free & open source and has great customisation options.")
+        meta(property="og:type", content="website")
+        meta(property="og:url", content="http://twitterfontana.com")
+        meta(property="og:image", content="http://twitterfontana.com/img/avatar.png")
+        meta(property="og:site_name", content="Twitter Fontana")
+        meta(property="fb:admins", content="100000559554412")
+        link.bootstrap(rel="stylesheet", href="/bootstrap/css/bootstrap.min.css")
         link(rel="stylesheet", href="/css/transitions.css")
         link(rel="stylesheet", href="/css/demo.css")
     body
@@ -14,8 +22,7 @@ html
                     span.icon-bar
                     span.icon-bar
                 .navbar-brand
-                    img(src="/img/logo.png", width="16", height="16", alt="")
-                    | &nbsp;TwitterFontana
+                    | TwitterFontana
             .collapse.navbar-collapse
                 #controls.navbar-left
                     button.btn.btn-default.navbar-btn.settings(type="button")
@@ -39,7 +46,8 @@ html
         .fontana
             - messages = []
             - messages.push("Welcome to the brand new TwitterFontana! Completely revamped to work with Twitter's API v1.1")
-            - messages.push("Sign in with your Twitter account to search for Tweets!")
+            - messages.push("Click the cog icon for the settings menu and pick a different style or transition efect")
+            - messages.push("Sign in with your Twitter account to enable Twitter search!")
             each message, i in messages
                 div.message.media.well.col-md-6.col-md-offset-3(id='msg'+i)
                     figure.pull-left.media-object
@@ -56,7 +64,42 @@ html
         .progress.progress-striped.active
             .progress-bar
 
+        #logos.well.well-sm
+            div
+                a.eight(href="http://www.eight.nl/", title="Webdesign & Internet marketing in Arnhem", target="_blank")
+                    span.sr-only Eight Media Internetbureau Arnhem
+                a.github(href="https://github.com/EightMedia/TwitterFontana", title="Fork Twitter Fontana on GitHub", target="_blank")
+                    span.sr-only GitHub
+            div
+                a.twitter-share-button(href="https://twitter.com/share", data-url="http://twitterfontana.com", data-text="Clean, fully customizable, Twitter fountain without Flash", data-related="tweetfontana", data-hashtags="twitterfontana")
+                    | Tweet
+            div
+                span.facebook
+                    iframe(src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.facebook.com%2Ftwitterfontana&send=false&layout=button_count&width=450&show_faces=false&action=like&colorscheme=light&font=segoe+ui&height=21&appId=202320067644&locale=en_US", scrolling="no", frameborder="0", allowTransparency="true", height=20, width=100)
+
+
         script(src="/js/lib.min.js")
         script(src="/bootstrap/js/bootstrap.min.js")
         script(src="/js/twitterfontana.min.js")
         script(src="/js/demo.min.js")
+        script.
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-30289566-2']);
+            _gaq.push(['_setDomainName', 'twitterfontana.com']);
+            _gaq.push(['_trackPageview']);
+
+            (function() {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = 'http://www.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+        script.
+            !function(d,s,id){
+                var js,fjs=d.getElementsByTagName(s)[0];
+                if(!d.getElementById(id)){
+                    js=d.createElement(s);
+                    js.id=id;
+                    js.src="//platform.twitter.com/widgets.js";
+                    fjs.parentNode.insertBefore(js,fjs);
+                }
+            }(document,"script","twitter-wjs");

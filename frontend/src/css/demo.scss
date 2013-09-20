@@ -1,5 +1,11 @@
 @import "compass";
 
+.navbar-brand {
+    background: url('/img/logo.png') no-repeat 16px 50%;
+    background-size: auto 32px;
+    padding-left: 48px;
+}
+
 html, body {
     min-height: 100%;
     width: 100%;
@@ -35,3 +41,27 @@ html, body {
 .fontana:empty + .progress {
     opacity: 1;
 }
+
+#logos {
+    position: fixed;
+    bottom: 0;
+    z-index: 99;
+
+    .eight, .github {
+        display: inline-block;
+        height: 24px;
+        background-size: auto 24px;
+        background-repeat: no-repeat;
+        background-position: 0 50%;
+        margin: 0 8px;
+    }
+    .eight {
+        background-image: url('/img/eight.png');
+        width: 32px;
+    }
+    .github {
+        background-image: url('/img/github.png');
+        width: 64px;
+    }
+}
+
