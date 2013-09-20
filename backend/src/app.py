@@ -2,7 +2,6 @@ import flask
 import json
 import os
 import sys
-import urlparse
 from fontana import twitter
 
 app = flask.Flask('fontana')

@@ -64,7 +64,7 @@ by trying to sign in with Twitter.
 First start the development server:
 
 ``` shell
-$ python backend/src/fontana.py backend/var/conf/fontana.conf
+$ python backend/src/app.py backend/var/conf/fontana.conf
 > * Running on http://127.0.0.1:5000/
 ```
 
@@ -93,7 +93,7 @@ run these commands to get a development server:
 
 ``` shell
 $ workon twitterfontana
-$ python backend/src/fontana.py backend/var/conf/fontana.conf
+$ python backend/src/app.py backend/var/conf/fontana.conf
 > * Running on http://127.0.0.1:5000/
 ```
 
@@ -104,8 +104,6 @@ $ grunt
 > Running "watch" task
 > Waiting...
 ```
-
-
 
 [Python]: http://www.python.org/
 [Flask]: http://flask.pocoo.org/
