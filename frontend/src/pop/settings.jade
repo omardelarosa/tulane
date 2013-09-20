@@ -1,0 +1,22 @@
+.modal-dialog.col-md-2
+    .modal-content
+        .modal-header
+            b Settings
+            button.close(type="button") &times;
+        .modal-body.clearfix
+            form#fontana-settings
+                .form-group
+                    label(for="search") Search
+                    input#search.form-control(type="text", value="TwitterFontana")
+                    p.help-block.
+                        Search is disabled unless you've signed in with Twitter
+                .form-group
+                    label(for="bootswatch") Style
+                    select#bootswatch.form-control
+                    p.help-block.
+                        Powered by <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a> &amp; <a href="http://bootswatch.com/" target="_blank">Bootswatch</a>
+                .form-group
+                    label(for="transition") Transition effect
+                    select#transition.form-control
+                    p.help-block.
+                        Some animations are provided by <a href="http://daneden.me/animate/" target="_blank">Dan Eden's animate.css</a>

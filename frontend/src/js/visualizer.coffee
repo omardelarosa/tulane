@@ -9,7 +9,7 @@ messageTemplate = '<div id="{id}" class="message media well col-md-6 col-md-offs
         <img src="{user.profile_image_url}" width="64" height="64" alt="" class="avatar img-thumbnail">
     </figure>
     <div class="media-body">
-        <p class="media-heading">
+        <div class="media-heading">
             <cite>
                 <span class="name">{user.name}</span>
                 <small class="text-muted">
@@ -17,22 +17,50 @@ messageTemplate = '<div id="{id}" class="message media well col-md-6 col-md-offs
                     <time class="time pull-right" data-time="{created_at}">{created_at}</time>
                 </small>
             </cite>
-        </p>
-        <p class="text lead"><q>{text}</q></p>
+        </div>
+        <div class="text lead"><q>{text}</q></div>
     </div>
 </div>'
 
+transitionEffects = ['scroll-up', 'scroll-down', 'lightspeed', 'hinge']
 
-class @Fontana.Visualizer
+
+class Fontana.Visualizer
     # Fontana visualizer, takes a container node and a datasource.
     constructor: (@container, @datasource) ->
+        @paused = false
         @fetchMessagesTimer = -1
         @animationTimer = -1
 
-    start: ->
+    start: (settings)->
         @fetchMessages(true)
         @container.empty()
+        @config(settings)
         @scheduleUpdateAllTimes()
+
+    config: (settings)->
+        transitionEffects.forEach (cls) =>
+            @container.removeClass(cls)
+        if settings && settings.transition && transitionEffects.indexOf(settings.transition) > -1
+            @container.addClass(settings.transition)
+        else
+            @container.addClass('scroll-down')
+
+    pause: ->
+        if !@paused
+            clearTimeout(@fetchMessagesTimer)
+            clearTimeout(@animationTimer)
+            @paused = true
+
+    resume: ->
+        if @paused
+            @fetchMessages()
+            @animate()
+            @paused = false
+
+    stop: ->
+        @pause()
+        @container.empty()
 
     # Messages
     fetchMessages: (initial=false)->
@@ -52,21 +80,37 @@ class @Fontana.Visualizer
             @scheduleAnimation()
 
     animate: ->
-        if !@current || !@current.next().length
-            prev = $(".message:last", @container)
-            @current = $(".message:first", @container)
-            next = @current.next()
-        else
-            prev = @current
-            @current = @current.next()
-            if @current.next().length
+        messages = $(".message", @container)
+        if messages.length >= 3
+            if !@current || !@current.next().length
+                prev = $(".message:last", @container)
+                @current = $(".message:first", @container)
                 next = @current.next()
             else
-                next = $(".message:first", @container)
-        $(".message", @container).removeClass("focus").removeClass("prev")
-        prev.addClass("prev")
+                prev = @current
+                @current = @current.next()
+                if @current.next().length
+                    next = @current.next()
+                else
+                    next = $(".message:first", @container)
+        else if messages.length == 2
+            if !@current || !@current.next().length
+                @current = $(".message:first", @container)
+                next = @current.next()
+            else
+                @current = @current.next()
+                if @current.next().length
+                    next = @current.next()
+                else
+                    next = $(".message:first", @container)
+        else
+            @current = messages
+        messages.removeClass("focus").removeClass("prev")
+        if prev
+            prev.addClass("prev")
         @current.removeClass("next").addClass("focus")
-        next.addClass("next")
+        if next
+            next.addClass("next")
         @scheduleAnimation()
 
     # Time display
@@ -81,7 +125,7 @@ class @Fontana.Visualizer
 
     # Scheduling
     scheduleAnimation: ->
-        delay = if @animationTimer == -1 then 0 else 5000
+        delay = if @animationTimer == -1 then 0 else 6000
         @animationTimer = setTimeout((=> @animate()), delay)
 
     scheduleFetchMessages: ->
@@ -89,3 +133,6 @@ class @Fontana.Visualizer
 
     scheduleUpdateAllTimes: ->
         setTimeout((=> @updateAllTimes()), 10000)
+
+
+@Fontana.Visualizer.transitionEffects = transitionEffects

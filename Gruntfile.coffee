@@ -39,6 +39,9 @@ module.exports = (grunt) ->
                     ],
                     'frontend/httpdocs/pop/twitter_success.html': [
                         'frontend/src/pop/twitter_success.jade'
+                    ],
+                    'frontend/httpdocs/pop/settings.html': [
+                        'frontend/src/pop/settings.jade'
                     ]
 
         # concat
@@ -51,11 +54,13 @@ module.exports = (grunt) ->
             main:
                 files:
                     'frontend/httpdocs/js/twitterfontana.js': [
-                        'frontend/src/js/*.js'
                         'frontend/src/js/*.coffee'
                     ]
                     'frontend/httpdocs/js/lib.js': [
-                        'frontend/src/js/lib/*'
+                        'frontend/src/js/lib/*.js'
+                    ]
+                    'frontend/httpdocs/js/demo.js': [
+                        'frontend/src/js/demo/*.coffee'
                     ]
 
         # uglify
@@ -64,8 +69,9 @@ module.exports = (grunt) ->
                 preserveComments: false
             main:
                 files:
-                    'frontend/httpdocs/js/twitterfontana.min.js': 'frontend/httpdocs/js/twitterfontana.js'
                     'frontend/httpdocs/js/lib.min.js': 'frontend/httpdocs/js/lib.js'
+                    'frontend/httpdocs/js/twitterfontana.min.js': 'frontend/httpdocs/js/twitterfontana.js'
+                    'frontend/httpdocs/js/demo.min.js': 'frontend/httpdocs/js/demo.js'
 
         # compile sass to css
         compass:

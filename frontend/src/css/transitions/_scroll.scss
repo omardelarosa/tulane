@@ -14,7 +14,9 @@
         top: -10%;
         opacity: 0;
         z-index: 0;
-        @include single-transition(all, 1.5s, ease-in-out);
+        @include transition-property(top opacity);
+        @include transition-duration(1s);
+        @include transition-timing-function(ease-in-out);
 
         &.prev {
             top: 10%;
@@ -34,7 +36,7 @@
             z-index: 2;
         }
 
-        &.next + .message:not(.prev) {
+        &.next + .message:not(.prev):not(.focus) {
             top: 100%;
         }
     }
@@ -54,7 +56,9 @@
           top: 100%;
           opacity: 0;
           z-index: 0;
-          @include single-transition(all, 1.5s, ease-in-out);
+          @include transition-property(top opacity);
+          @include transition-duration(1s);
+          @include transition-timing-function(ease-in-out);
 
           &.prev {
               top: 70%;
@@ -74,7 +78,7 @@
               z-index: 2;
           }
 
-          &.next + .message:not(.prev) {
+          &.next + .message:not(.prev):not(.focus) {
               top: -10%;
           }
     }

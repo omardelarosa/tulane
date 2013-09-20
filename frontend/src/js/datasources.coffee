@@ -12,10 +12,11 @@ The callback is called with a list of messages in the following format:
 
 ``` javascript
 {
+    'id': 'unique-id',
     'created_at': new Date().toString(),
     'text': 'A fake Tweet, in a fake JSON response',
     'user': {
-        'name': 'Tweet Fontana'
+        'name': 'Tweet Fontana',
         'screen_name': 'tweetfontana',
         'profile_image_url': '/img/avatar.png'
     }
@@ -44,7 +45,8 @@ class @Fontana.datasources.Static
 
     getMessages: (callback)->
         # setTimeout makes this async
-        setTimeout((=> callback(@messages)), 0)
+        if callback
+            setTimeout((=> callback(@messages)), 0)
 
 
 class @Fontana.datasources.HTML
@@ -91,7 +93,8 @@ class @Fontana.datasources.HTML
                 messages.push(message))
         @messages = messages.concat(@messages)
         # setTimeout makes this async
-        setTimeout((=> callback(@messages)), 0)
+        if callback
+            setTimeout((=> callback(@messages)), 0)
 
 
 class @Fontana.datasources.TwitterSearch
@@ -105,10 +108,10 @@ class @Fontana.datasources.TwitterSearch
     ###
     min_interval = 60000 * 15 / 180
 
-    constructor: (q)->
+    constructor: (@q)->
         @params = {
             since_id: 1
-            q: q
+            q: @q
             result_type: 'recent'
         }
         @lastCall = 0
@@ -117,25 +120,39 @@ class @Fontana.datasources.TwitterSearch
     getMessages: (callback)->
         now = (new Date()).getTime()
         if now - @lastCall < min_interval
-            setTimeout((=> callback(@messages)), 0)
+            if callback
+                setTimeout((=> callback(@messages)), 0)
         else
             @lastCall = (new Date()).getTime()
             $.getJSON('/api/twitter/search/', @params)
                 .success((data)=>
-                    @messages = data.statuses.concat(@messages)
-                    @params['since_id'] = @messages[0].id_str
-                    callback(@messages)
+                    if data.statuses.length
+                        @messages = data.statuses.concat(@messages)
+                        @params['since_id'] = @messages[0].id_str
+                    if callback
+                        if @messages.length
+                            callback(@messages)
+                        else
+                            callback([
+                                id: (new Date()).getTime()
+                                created_at: new Date().toString()
+                                text: 'Your search term returned no Tweets :('
+                                user:
+                                    name: 'Twitter Fontana'
+                                    screen_name: 'twitterfontana'
+                                    profile_image_url: '/img/avatar.png'
+                            ])
                 )
                 .error(->
-                    callback([{
-                        id: (new Date.getTime()).getTime()
-                        created_at: new Date().toString()
-                        text: 'Error fetching tweets :('
-                        user: {
-                            name: 'Twitter Fontana'
-                            screen_name: 'twitterfontana'
-                            profile_image_url: '/img/avatar.png'
-                        }
-                    }])
+                    if callback
+                        callback([
+                            id: (new Date()).getTime()
+                            created_at: new Date().toString()
+                            text: 'Error fetching tweets :('
+                            user:
+                                name: 'Twitter Fontana'
+                                screen_name: 'twitterfontana'
+                                profile_image_url: '/img/avatar.png'
+                        ])
                 )
 

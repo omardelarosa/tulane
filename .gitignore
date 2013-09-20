@@ -1,4 +1,3 @@
 backend/var/conf/fontana.conf
 node_modules
-frontend/httpdocs/*
 .sass-cache

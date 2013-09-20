@@ -16,14 +16,15 @@
         -webkit-transform: translate3d(0, 0, 0);
         opacity: 0;
         position: absolute;
-        top: 10%;
+        top: 35%;
 
         &.focus {
-            @include animation(lightSpeedIn .5s 1);
+            @include animation(lightSpeedIn .75s 1);
+            opacity: 1;
         }
 
         &.prev {
-            @include animation(lightSpeedOut .5s 1);
+            @include animation(lightSpeedOut .75s 1);
         }
     }
 }
