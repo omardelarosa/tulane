@@ -11,47 +11,47 @@
       description: "Just plain bootstrap"
     },
     Amelia: {
-      stylesheet: "/bootswatch/amelia/bootstrap.min.css",
+      stylesheet: "/bootstrap/amelia/bootstrap.min.css",
       description: "Sweet and cheery"
     },
     Cerulean: {
-      stylesheet: "/bootswatch/cerulean/bootstrap.min.css",
+      stylesheet: "/bootstrap/cerulean/bootstrap.min.css",
       description: "A calm blue sky"
     },
     Cosmo: {
-      stylesheet: "/bootswatch/cosmo/bootstrap.min.css",
+      stylesheet: "/bootstrap/cosmo/bootstrap.min.css",
       description: "An ode to Metro"
     },
     Cyborg: {
-      stylesheet: "/bootswatch/cyborg/bootstrap.min.css",
+      stylesheet: "/bootstrap/cyborg/bootstrap.min.css",
       description: "Jet black and electric blue"
     },
     Flatly: {
-      stylesheet: "/bootswatch/flatly/bootstrap.min.css",
+      stylesheet: "/bootstrap/flatly/bootstrap.min.css",
       description: "Flat and modern"
     },
     Journal: {
-      stylesheet: "/bootswatch/journal/bootstrap.min.css",
+      stylesheet: "/bootstrap/journal/bootstrap.min.css",
       description: "Crisp like a new sheet of paper"
     },
     Readable: {
-      stylesheet: "/bootswatch/readable/bootstrap.min.css",
+      stylesheet: "/bootstrap/readable/bootstrap.min.css",
       description: "Optimized for legibility"
     },
     Simplex: {
-      stylesheet: "/bootswatch/simplex/bootstrap.min.css",
+      stylesheet: "/bootstrap/simplex/bootstrap.min.css",
       description: "Mini and minimalist"
     },
     Slate: {
-      stylesheet: "/bootswatch/slate/bootstrap.min.css",
+      stylesheet: "/bootstrap/slate/bootstrap.min.css",
       description: "Shades of gunmetal gray"
     },
     Spacelab: {
-      stylesheet: "/bootswatch/spacelab/bootstrap.min.css",
+      stylesheet: "/bootstrap/spacelab/bootstrap.min.css",
       description: "Silvery and sleek"
     },
     United: {
-      stylesheet: "/bootswatch/united/bootstrap.min.css",
+      stylesheet: "/bootstrap/united/bootstrap.min.css",
       description: "Ubuntu orange and unique font"
     }
   };
