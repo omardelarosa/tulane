@@ -24,12 +24,12 @@
             z-index: 2;
         }
 
-        &.next {
+        &.next-one {
             display: block;
             z-index: 1;
         }
 
-        &.prev {
+        &.prev-one {
             display: block;
             z-index: 3;
             @include animation(hinge 2s 1);

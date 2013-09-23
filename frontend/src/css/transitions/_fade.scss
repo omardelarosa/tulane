@@ -1,9 +1,6 @@
 @import "compass";
-@import "animate";
 
-@include animate-lightSpeed(in out);
-
-.lightspeed {
+.fade-in {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -13,17 +10,14 @@
 
     .message {
         -webkit-transform: translate3d(0, 0, 0);
-        opacity: 0;
         position: absolute;
         top: 35%;
+        opacity: 0;
+        @include transition-property(opacity);
+        @include transition-duration(1s);
 
         &.focus {
-            @include animation(lightSpeedIn .75s 1);
             opacity: 1;
-        }
-
-        &.prev-one {
-            @include animation(lightSpeedOut .75s 1);
         }
     }
 }

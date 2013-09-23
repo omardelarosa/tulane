@@ -233,51 +233,6 @@ the Twitter datasource) will provide a richer set of keys.
 }).call(this);
 
 /*
-# Fontana Twitter authentication
-*/
-
-
-(function() {
-  if (this.Fontana == null) {
-    this.Fontana = {};
-  }
-
-  this.Fontana.TwitterAuth = (function() {
-    function TwitterAuth() {}
-
-    TwitterAuth.prototype.activeSession = function(callback) {
-      return $.get('/api/twitter/session/').success(function(data) {
-        return callback(data);
-      }).error(function() {
-        return callback(null);
-      });
-    };
-
-    TwitterAuth.prototype.signIn = function(callback) {
-      var funcName, height, left, top, url, width, windowFeatures, windowName;
-      funcName = String.fromCharCode(Math.floor(Math.random() * 24) + 65) + (new Date()).getTime();
-      window[funcName] = callback;
-      width = 700;
-      height = 700;
-      left = (window.screen.width + width) / 2;
-      top = (screen.height + height) / 2;
-      url = "/api/twitter/session/new/?next=/pop/twitter_success.html" + encodeURIComponent("?callback=" + funcName);
-      windowName = "twitterFontanaLogin";
-      windowFeatures = "location=0,menubar=0,status=0,width=" + width + ",height=" + height + ",top=" + top + ",left=" + left;
-      return window.open(url, windowName, windowFeatures).focus();
-    };
-
-    TwitterAuth.prototype.signOut = function(callback) {
-      return $.post('/api/session/clear/').success(callback);
-    };
-
-    return TwitterAuth;
-
-  })();
-
-}).call(this);
-
-/*
 # Fontana utils
 */
 
@@ -400,7 +355,7 @@ the Twitter datasource) will provide a richer set of keys.
     </div>\
 </div>';
 
-  transitionEffects = ['scroll-up', 'scroll-down', 'lightspeed', 'hinge'];
+  transitionEffects = ['compress', 'fade-in', 'hinge', 'lightspeed', 'scroll-up', 'scroll-down', 'slide', 'tilt-scroll', 'zoom-in'];
 
   Fontana.Visualizer = (function() {
     function Visualizer(container, datasource) {
@@ -426,7 +381,7 @@ the Twitter datasource) will provide a richer set of keys.
       if (settings && settings.transition && transitionEffects.indexOf(settings.transition) > -1) {
         return this.container.addClass(settings.transition);
       } else {
-        return this.container.addClass('scroll-down');
+        return this.container.addClass(transitionEffects[0]);
       }
     };
 
@@ -492,43 +447,25 @@ the Twitter datasource) will provide a richer set of keys.
     Visualizer.prototype.animate = function() {
       var messages, next, prev;
       messages = $(".message", this.container);
-      if (messages.length >= 3) {
-        if (!this.current || !this.current.next().length) {
-          prev = $(".message:last", this.container);
-          this.current = $(".message:first", this.container);
-          next = this.current.next();
-        } else {
-          prev = this.current;
-          this.current = this.current.next();
-          if (this.current.next().length) {
-            next = this.current.next();
-          } else {
-            next = $(".message:first", this.container);
-          }
-        }
-      } else if (messages.length === 2) {
-        if (!this.current || !this.current.next().length) {
-          this.current = $(".message:first", this.container);
-          next = this.current.next();
-        } else {
-          this.current = this.current.next();
-          if (this.current.next().length) {
-            next = this.current.next();
-          } else {
-            next = $(".message:first", this.container);
-          }
-        }
+      messages.removeClass("next next-one focus prev-one prev ");
+      if (!this.current) {
+        this.current = $(".message:first", this.container);
       } else {
-        this.current = messages;
+        this.current = !this.current.next().length ? $(".message:first", this.container) : this.current.next();
       }
-      messages.removeClass("focus").removeClass("prev");
-      if (prev) {
-        prev.addClass("prev");
+      next = this.current.next();
+      if (!next.length) {
+        next = $(".message:first", this.container);
       }
-      this.current.removeClass("next").addClass("focus");
-      if (next) {
-        next.addClass("next");
+      this.current.addClass("focus");
+      next.addClass("next-one");
+      next.nextAll(":not(.focus)").addClass("next");
+      prev = this.current.prev();
+      if (!prev.length) {
+        prev = $(".message:last", this.container);
       }
+      prev.addClass("prev-one").removeClass("next");
+      prev.prevAll(":not(.next-one):not(.next):not(.focus)").addClass("prev");
       return this.scheduleAnimation();
     };
 

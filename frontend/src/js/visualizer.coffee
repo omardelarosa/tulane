@@ -22,7 +22,9 @@ messageTemplate = '<div id="{id}" class="message media well col-md-6 col-md-offs
     </div>
 </div>'
 
-transitionEffects = ['scroll-up', 'scroll-down', 'lightspeed', 'hinge']
+transitionEffects = ['compress', 'fade-in', 'hinge', 'lightspeed',
+                     'scroll-up', 'scroll-down', 'slide', 'tilt-scroll',
+                     'zoom-in']
 
 
 class Fontana.Visualizer
@@ -44,7 +46,7 @@ class Fontana.Visualizer
         if settings && settings.transition && transitionEffects.indexOf(settings.transition) > -1
             @container.addClass(settings.transition)
         else
-            @container.addClass('scroll-down')
+            @container.addClass(transitionEffects[0])
 
     pause: ->
         if !@paused
@@ -84,36 +86,22 @@ class Fontana.Visualizer
 
     animate: ->
         messages = $(".message", @container)
-        if messages.length >= 3
-            if !@current || !@current.next().length
-                prev = $(".message:last", @container)
-                @current = $(".message:first", @container)
-                next = @current.next()
-            else
-                prev = @current
-                @current = @current.next()
-                if @current.next().length
-                    next = @current.next()
-                else
-                    next = $(".message:first", @container)
-        else if messages.length == 2
-            if !@current || !@current.next().length
-                @current = $(".message:first", @container)
-                next = @current.next()
-            else
-                @current = @current.next()
-                if @current.next().length
-                    next = @current.next()
-                else
-                    next = $(".message:first", @container)
+        messages.removeClass("next next-one focus prev-one prev ")
+        if !@current
+            @current = $(".message:first", @container)
         else
-            @current = messages
-        messages.removeClass("focus").removeClass("prev")
-        if prev
-            prev.addClass("prev")
-        @current.removeClass("next").addClass("focus")
-        if next
-            next.addClass("next")
+            @current =  if !@current.next().length then $(".message:first", @container) else @current.next()
+        next = @current.next()
+        if !next.length
+            next = $(".message:first", @container)
+        @current.addClass("focus")
+        next.addClass("next-one")
+        next.nextAll(":not(.focus)").addClass("next")
+        prev = @current.prev()
+        if !prev.length
+            prev = $(".message:last", @container)
+        prev.addClass("prev-one").removeClass("next")
+        prev.prevAll(":not(.next-one):not(.next):not(.focus)").addClass("prev")
         @scheduleAnimation()
 
     # Time display

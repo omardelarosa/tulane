@@ -57,10 +57,15 @@
   };
 
   transitions = {
+    'Compress': 'compress',
+    'Fade-In': 'fade-in',
+    'Hinge': 'hinge',
+    'Lightspeed': 'lightspeed',
     'Scroll-Down': 'scroll-down',
     'Scroll-Up': 'scroll-up',
-    'Lightspeed': 'lightspeed',
-    'Hinge': 'hinge'
+    'Slide': 'slide',
+    'Tilt-Scroll': 'tilt-scroll',
+    'Zoom-In': 'zoom-in'
   };
 
   $(function() {
@@ -264,5 +269,50 @@
     });
     return checkSession();
   });
+
+}).call(this);
+
+/*
+# Fontana Twitter authentication
+*/
+
+
+(function() {
+  if (this.Fontana == null) {
+    this.Fontana = {};
+  }
+
+  this.Fontana.TwitterAuth = (function() {
+    function TwitterAuth() {}
+
+    TwitterAuth.prototype.activeSession = function(callback) {
+      return $.get('/api/twitter/session/').success(function(data) {
+        return callback(data);
+      }).error(function() {
+        return callback(null);
+      });
+    };
+
+    TwitterAuth.prototype.signIn = function(callback) {
+      var funcName, height, left, top, url, width, windowFeatures, windowName;
+      funcName = String.fromCharCode(Math.floor(Math.random() * 24) + 65) + (new Date()).getTime();
+      window[funcName] = callback;
+      width = 700;
+      height = 700;
+      left = (window.screen.width + width) / 2;
+      top = (screen.height + height) / 2;
+      url = "/api/twitter/session/new/?next=/pop/twitter_success.html" + encodeURIComponent("?callback=" + funcName);
+      windowName = "twitterFontanaLogin";
+      windowFeatures = "location=0,menubar=0,status=0,width=" + width + ",height=" + height + ",top=" + top + ",left=" + left;
+      return window.open(url, windowName, windowFeatures).focus();
+    };
+
+    TwitterAuth.prototype.signOut = function(callback) {
+      return $.post('/api/session/clear/').success(callback);
+    };
+
+    return TwitterAuth;
+
+  })();
 
 }).call(this);
