@@ -5,6 +5,15 @@ html
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         link.bootstrap(rel="stylesheet", href="/bootstrap/css/bootstrap.min.css")
         link(rel="stylesheet", href="/css/transitions.css")
+        style.
+            @media(max-width:991px) {
+                .message {
+                    width: 95%;
+                    left: 2.5%;
+                }
+            }
+            .message { margin-top: 0; }
+            .lead { margin-bottom: 0; }
     body
         .fontana
             - messages = []

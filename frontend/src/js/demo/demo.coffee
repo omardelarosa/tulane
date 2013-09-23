@@ -1,8 +1,11 @@
 # Bootswatch stylesheets
 styles =
+    TwitterFontana:
+        stylesheet: "/css/fontana.css"
+        description: "TwitterFontana's default style"
     Bootstrap:
         stylesheet: ""
-        description: "Default style"
+        description: "Just plain bootstrap"
     Amelia:
         stylesheet: "/bootswatch/amelia/bootstrap.min.css"
         description: "Sweet and cheery"

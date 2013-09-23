@@ -1,0 +1,35 @@
+body {
+    background-color: #0072bc;
+}
+
+.navbar-default {
+    background-color: #004C7D;
+    border-color: #004C7D;
+
+    .navbar-brand, .navbar-text {
+        color: #f9f8f7;
+
+        &:focus, &:hover {
+            color: #f9f8f7;
+        }
+    }
+}
+
+.btn-default {
+    background-color: #f9f8f7;
+    border-color: #f9f8f7;
+    color: #3f3f3f;
+}
+
+.well {
+    background-color: #f9f8f7;
+    border-color: #f9f8f7;
+    color: #3f3f3f;
+}
+
+a {
+    color: #0072bc;
+    &:focus, &:hover, &:active, &:visited {
+        color: #0072bc;
+    }
+}

@@ -1,17 +1,25 @@
 @import "compass";
 
-.navbar-brand {
-    background: url('/img/logo.png') no-repeat 16px 50%;
-    background-size: auto 32px;
-    padding-left: 48px;
+.logo {
+    background: url('/img/logo.svg') no-repeat;
+    background-size: contain;
+    height: 32px;
+    width: 24px;
+    float: left;
+    margin: 10px -10px 0 10px;
 }
 
 html, body {
     min-height: 100%;
     width: 100%;
 }
+
 .message {
     margin-top: 0;
+}
+
+.lead {
+    margin-bottom: 0;
 }
 
 @media(max-width:991px) {
@@ -21,9 +29,6 @@ html, body {
     }
 }
 
-.lead {
-    margin-bottom: 0;
-}
 .progress {
     width: 50%;
     position: absolute;
@@ -49,19 +54,17 @@ html, body {
 
     .eight, .github {
         display: inline-block;
-        height: 24px;
-        background-size: auto 24px;
+        height: 32px;
+        background-size: contain;
         background-repeat: no-repeat;
-        background-position: 0 50%;
-        margin: 0 8px;
     }
     .eight {
-        background-image: url('/img/eight.png');
+        background-image: url('/img/eight.svg');
         width: 32px;
     }
     .github {
-        background-image: url('/img/github.png');
-        width: 64px;
+        background-image: url('/img/github.svg');
+        width: 24px;
     }
 }
 

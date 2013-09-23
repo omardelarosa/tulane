@@ -23,8 +23,14 @@ module.exports = (grunt) ->
                 options:
                     interrupt: true
             img:
-                files: ['frontend/src/img/*.*'],
+                files: ['frontend/src/img/*.{png,jpg,jpeg,gif}'],
                 tasks: ['imagemin']
+                options:
+                    interrupt: true
+
+            svg:
+                files: ['frontend/src/img/*.svg'],
+                tasks: ['svgmin']
                 options:
                     interrupt: true
 
@@ -89,19 +95,28 @@ module.exports = (grunt) ->
                     require: ['animate']
 
         # optimize images
-        imagemin: {
-            main: {
-                files: [{
+        imagemin:
+            main:
+                files: [
                     expand: true,
                     cwd: 'frontend/src/img/',
                     src: ['*.{png,jpg,jpeg,gif}'],
                     dest: 'frontend/httpdocs/img/'
-                }]
-            }
-        }
+                ]
 
-    # tasks
-    grunt.registerTask('default', ['watch', 'imagemin'])
+        svgmin:
+            main:
+                files: [
+                    expand: true,
+                    cwd: 'frontend/src/img/',
+                    src: ['*.svg'],
+                    dest: 'frontend/httpdocs/img/'
+                ]
+
+    # Default: run all tasks, then start watch
+    grunt.registerTask('default', ['jade', 'compass', 'concat',
+                                   'uglify', 'imagemin', 'svgmin',
+                                   'watch'])
 
     # include
     grunt.loadNpmTasks 'grunt-contrib-watch'
@@ -110,3 +125,4 @@ module.exports = (grunt) ->
     grunt.loadNpmTasks 'grunt-contrib-uglify'
     grunt.loadNpmTasks 'grunt-contrib-jade'
     grunt.loadNpmTasks 'grunt-contrib-imagemin';
+    grunt.loadNpmTasks 'grunt-svgmin'
