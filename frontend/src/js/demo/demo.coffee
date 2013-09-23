@@ -196,5 +196,6 @@ $ ->
     $(".fullscreen", controls).click -> toggleFullscreen.call(this)
     $("button", signIn).click -> auth.signIn(checkSession)
     $("button", signOut).click -> auth.signOut(checkSession)
+    $("#logos .close").click -> $(this).parent().remove()
 
     checkSession()

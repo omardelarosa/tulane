@@ -267,6 +267,9 @@
     $("button", signOut).click(function() {
       return auth.signOut(checkSession);
     });
+    $("#logos .close").click(function() {
+      return $(this).parent().remove();
+    });
     return checkSession();
   });
 
