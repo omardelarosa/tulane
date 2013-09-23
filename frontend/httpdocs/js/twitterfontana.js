@@ -292,7 +292,7 @@ the Twitter datasource) will provide a richer set of keys.
       return !!request;
     });
     if (request) {
-      return request.call(el);
+      return request.call(el, Element.ALLOW_KEYBOARD_INPUT);
     }
   };
 

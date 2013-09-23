@@ -43,7 +43,7 @@ vendors = ['webkit', 'moz', 'ms']
         request ?= el[vendor + 'RequestFullScreen']
         return !!request
     if request
-        request.call(el)
+        request.call(el, Element.ALLOW_KEYBOARD_INPUT)
 
 
 @Fontana.utils.cancelFullScreen = ->
