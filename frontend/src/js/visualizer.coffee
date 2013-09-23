@@ -24,7 +24,7 @@ messageTemplate = '<div id="{id}" class="message media well col-md-6 col-md-offs
 
 transitionEffects = ['compress', 'fade-in', 'hinge', 'lightspeed',
                      'scroll-up', 'scroll-down', 'slide', 'tilt-scroll',
-                     'zoom-in']
+                     'vertigo', 'zoom-in']
 
 
 class Fontana.Visualizer

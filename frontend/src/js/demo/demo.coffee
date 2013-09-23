@@ -41,15 +41,16 @@ styles =
         description: "Ubuntu orange and unique font"
 
 transitions =
-    'Compress': 'compress'
-    'Fade-In': 'fade-in'
-    'Hinge': 'hinge'
-    'Lightspeed': 'lightspeed'
-    'Scroll-Down': 'scroll-down'
-    'Scroll-Up': 'scroll-up'
-    'Slide': 'slide'
-    'Tilt-Scroll': 'tilt-scroll'
-    'Zoom-In': 'zoom-in'
+    "Compress": "compress"
+    "Fade-In": "fade-in"
+    "Hinge": "hinge"
+    "Lightspeed": "lightspeed"
+    "Scroll-Down": "scroll-down"
+    "Scroll-Up": "scroll-up"
+    "Slide": "slide"
+    "Tilt-Scroll": "tilt-scroll"
+    "Vertigo": "vertigo"
+    "Zoom-In": "zoom-in"
 
 # Tying things together to make the demo page work
 $ ->

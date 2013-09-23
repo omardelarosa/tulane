@@ -355,7 +355,7 @@ the Twitter datasource) will provide a richer set of keys.
     </div>\
 </div>';
 
-  transitionEffects = ['compress', 'fade-in', 'hinge', 'lightspeed', 'scroll-up', 'scroll-down', 'slide', 'tilt-scroll', 'zoom-in'];
+  transitionEffects = ['compress', 'fade-in', 'hinge', 'lightspeed', 'scroll-up', 'scroll-down', 'slide', 'tilt-scroll', 'vertigo', 'zoom-in'];
 
   Fontana.Visualizer = (function() {
     function Visualizer(container, datasource) {
