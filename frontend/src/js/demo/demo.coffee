@@ -127,14 +127,14 @@ $ ->
             settings.toggle()
 
     toggleViz = ->
-        icon = $(".glyphicon", this)
+        icon = $("[class*='icon-']", this)
         if visualizer.paused
-            icon.removeClass("glyphicon-play")
-            icon.addClass("glyphicon-pause")
+            icon.removeClass("icon-play")
+            icon.addClass("icon-pause")
             visualizer.resume()
         else
-            icon.removeClass("glyphicon-pause")
-            icon.addClass("glyphicon-play")
+            icon.removeClass("icon-pause")
+            icon.addClass("icon-play")
             visualizer.pause()
 
     toggleFullscreen = ->

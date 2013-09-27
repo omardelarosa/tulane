@@ -170,14 +170,14 @@
     };
     toggleViz = function() {
       var icon;
-      icon = $(".glyphicon", this);
+      icon = $("[class*='icon-']", this);
       if (visualizer.paused) {
-        icon.removeClass("glyphicon-play");
-        icon.addClass("glyphicon-pause");
+        icon.removeClass("icon-play");
+        icon.addClass("icon-pause");
         return visualizer.resume();
       } else {
-        icon.removeClass("glyphicon-pause");
-        icon.addClass("glyphicon-play");
+        icon.removeClass("icon-pause");
+        icon.addClass("icon-play");
         return visualizer.pause();
       }
     };

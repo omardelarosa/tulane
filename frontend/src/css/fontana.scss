@@ -1,10 +1,10 @@
 body {
-    background-color: #0072bc;
+    background-color: #1872C0;
 }
 
 .navbar-default {
-    background-color: #004C7D;
-    border-color: #004C7D;
+    background-color: #166AB2;
+    border-color: #166AB2;
 
     .navbar-brand, .navbar-text {
         color: #f9f8f7;
@@ -16,9 +16,15 @@ body {
 }
 
 .btn-default {
-    background-color: #f9f8f7;
-    border-color: #f9f8f7;
-    color: #3f3f3f;
+    background-color: #044984;
+    border-color: #044984;
+    color: #f9f8f7;
+
+    &:focus, &:hover, &:active, &.active {
+        background-color: #033D6D;
+        border-color: #033D6D;
+        color: #f9f8f7;
+    }
 }
 
 .well {
@@ -29,7 +35,8 @@ body {
 
 a {
     color: #0072bc;
-    &:focus, &:hover, &:active, &:visited {
-        color: #0072bc;
-    }
+}
+
+.text-muted {
+    color: #999;
 }

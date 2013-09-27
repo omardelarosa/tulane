@@ -22,19 +22,19 @@ html
                     i.icon-bar
                     i.icon-bar
                     i.icon-bar
-                i.logo
+                h1.icon-fontana-logo.navbar-text
                 .navbar-brand
                     | Twitter Fontana
             .collapse.navbar-collapse
                 #controls.navbar-left
                     button.btn.btn-default.navbar-btn.settings(type="button")
-                        i.glyphicon.glyphicon-cog
+                        i.icon-cog
                     | &nbsp;
                     button.btn.btn-default.navbar-btn.pause-resume(type="button")
-                        i.glyphicon.glyphicon-pause
+                        i.icon-pause
                     | &nbsp;
                     button.btn.btn-default.navbar-btn.fullscreen(type="button")
-                        i.glyphicon.glyphicon-fullscreen
+                        i.icon-expand
                 .navbar-right
                     #signin.hidden
                         button.btn.btn-default.navbar-btn(type="button")
@@ -68,18 +68,17 @@ html
 
         #logos.well.well-sm
             button.close(type="button") &times;
-            div
-                a.eight(href="http://www.eight.nl/", title="Webdesign & Internet marketing in Arnhem", target="_blank")
-                    span.sr-only Eight Media Internetbureau Arnhem
-                | &nbsp;
-                a.github(href="https://github.com/EightMedia/TwitterFontana", title="Fork Twitter Fontana on GitHub", target="_blank")
-                    span.sr-only GitHub
-            div
-                a.twitter-share-button(href="https://twitter.com/share", data-url="http://twitterfontana.com", data-text="Clean, fully customizable, Twitter fountain without Flash", data-related="tweetfontana", data-hashtags="twitterfontana")
-                    | Tweet
-            div
-                span.facebook
-                    iframe(src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.facebook.com%2Ftwitterfontana&send=false&layout=button_count&width=450&show_faces=false&action=like&colorscheme=light&font=segoe+ui&height=21&appId=202320067644&locale=en_US", scrolling="no", frameborder="0", allowTransparency="true", height=20, width=100)
+            a.icon-eight-logo.text-muted(href="http://www.eight.nl/", title="Webdesign & Internet marketing in Arnhem", target="_blank")
+                span.sr-only Eight Media Internetbureau Arnhem
+            | &nbsp;
+            a.icon-github-logo.text-muted(href="https://github.com/EightMedia/TwitterFontana", title="Fork Twitter Fontana on GitHub", target="_blank")
+                span.sr-only GitHub
+            | &nbsp;
+            a.twitter-share-button(href="https://twitter.com/share", data-url="http://twitterfontana.com", data-text="Clean, fully customizable, Twitter fountain without Flash", data-related="tweetfontana", data-hashtags="twitterfontana")
+                | Tweet
+            | &nbsp;
+            span.facebook
+                iframe(src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.facebook.com%2Ftwitterfontana&send=false&layout=button_count&width=450&show_faces=false&action=like&colorscheme=light&font=segoe+ui&height=21&appId=202320067644&locale=en_US", scrolling="no", frameborder="0", allowTransparency="true", height=20, width=100)
 
 
         script(src="/js/lib.min.js")

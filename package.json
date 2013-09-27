@@ -13,7 +13,6 @@
         "grunt-contrib-concat":"0.3",
         "grunt-contrib-watch":"0.4",
         "grunt-contrib-imagemin":"0.2",
-        "grunt-svgmin": "",
         "coffee-script":"*"
     }
 }
