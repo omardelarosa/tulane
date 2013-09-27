@@ -4,12 +4,17 @@ TwitterFontana is a backchannel visualisation solution for the Twitter
 Search API v1.1.
 
 The Twitter API connection backend is written in [Python] & [Flask] and the
-Fontana visualisation frontend is written in [Jade], [SASS] and [CoffeeScript].
+Fontana visualisation frontend is written in [CoffeeScript] and has CSS
+animations through Compass & [SASS].
+
+The HTML for the website is generated using [Jade] and styling & layout
+is achieved (mostly) through use of Twitter's [Bootstrap 3] framework.
+The additional theme's are provided by [Bootswatch].
 
 ## Getting started
 
 Alright, so there's some initial preparation and setup to perform to get
-the project working and ready for development.
+the project up and running.
 
 ### Software
 
@@ -18,8 +23,9 @@ and preferably [virtualenv] and [virtualenvwrapper]. This should be no
 problem on most Linux distributions, fairly easy on OS X and might be
 somewhat challenging on Windows (I have no experience with Python on Windows).
 
-For frontend development this project needs [nodejs + npm], [Grunt],
-and [Ruby], [RubyGems] & [Bundler] to be available.
+If you want to be able to edit the CoffeeScript, Jade & SASS files
+you will also need [nodejs + npm], [Grunt] and [Ruby], [RubyGems] & [Bundler]
+to be available.
 
 ### Prepare
 
@@ -37,6 +43,11 @@ With that out of the way, you can now "install" the project in a virtualenv:
 $ mkvirtualenv twitterfontana
 $ workon twitterfontana
 $ pip install -r requirements.txt
+```
+
+For the frontend requirements also run:
+
+``` shell
 $ npm install
 $ bundle install
 ```
@@ -76,8 +87,8 @@ and asked to "Authorize your application to use your account".
 After confirming access you will be redirected back to a page on
 the development server with the plain text string "OK".
 
-To verify if the frontend development part is working just run grunt,
-if everything is working you should see this output:
+If you've also installed the frontend requirements you can verify if everything
+is in working condition by running grunt. You should see some output like this:
 
 ``` shell
 $ grunt
@@ -109,11 +120,14 @@ $ grunt
 [Flask]: http://flask.pocoo.org/
 [virtualenv]: http://www.virtualenv.org/
 [virtualenvwrapper]: http://virtualenvwrapper.readthedocs.org/
-[nodejs + npm]: http://nodejs.org/
-[Grunt]: http://gruntjs.com/
 [CoffeeScript]: http://coffeescript.org/
+[Compass]: http://compass-style.org/
 [SASS]: http://sass-lang.com/
 [Jade]: http://jade-lang.com/
+[Bootstrap 3]: http://getboostrap.com/
+[Bootswatch]: http://bootswatch.com/
+[nodejs + npm]: http://nodejs.org/
+[Grunt]: http://gruntjs.com/
 [Ruby]: https://www.ruby-lang.org/
 [RubyGems]: http://rubygems.org/
 [Bundler]: http://bundler.io/
