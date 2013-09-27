@@ -57,7 +57,6 @@ vendors = ['webkit', 'moz', 'ms']
 
 @Fontana.utils.isFullScreen = ->
     request = document.fullScreen || document.isFullScreen
-    console.log(document.fullScreen, document.isFullScreen)
     vendors.some (vendor) ->
         request ?= document[vendor + 'FullScreen'] || document[vendor + 'IsFullScreen']
         return !!request

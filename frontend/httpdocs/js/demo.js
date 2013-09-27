@@ -251,7 +251,6 @@
       }
       if (!settings.transition) {
         rand = Math.floor(Math.random() * Fontana.Visualizer.transitionEffects.length);
-        console.log(rand);
         settings.transition = Fontana.Visualizer.transitionEffects[rand];
       }
       visualizer = new Fontana.Visualizer(container, HTMLFontana.datasource);

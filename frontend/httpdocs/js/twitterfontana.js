@@ -313,7 +313,6 @@ the Twitter datasource) will provide a richer set of keys.
   this.Fontana.utils.isFullScreen = function() {
     var request;
     request = document.fullScreen || document.isFullScreen;
-    console.log(document.fullScreen, document.isFullScreen);
     vendors.some(function(vendor) {
       if (request == null) {
         request = document[vendor + 'FullScreen'] || document[vendor + 'IsFullScreen'];

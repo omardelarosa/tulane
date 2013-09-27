@@ -47,10 +47,11 @@ html
 
         .fontana
             - messages = []
-            - messages.push("Welcome to the brand new Twitter Fontana! Completely revamped to work with Twitter's API v1.1. Sign in with your Twitter account to enable Twitter search!")
-            - messages.push("There are several transition effects and theme's to choose from. Click the cog icon (<i class='icon-cog'></i>) in the top bar for the settings menu and pick the theme and effect you like.")
-            - messages.push("Twitter Fontana is completely free & <a href='https://github.com/EightMedia/TwitterFontana' target='_blank'>open source</a>. It's flexible and built using modern web technology: #js, #html5 & #css3")
-            - messages.push("One of the first real time fullscreen Twitter walls without Flash, so it works in all modern browser and even your iPad.")
+            - messages.push("Welcome to the brand new Twitter Fontana! Completely revamped to work with Twitter's API v1.1. Sign in with your Twitter account to display your own Twitter searches.")
+            - messages.push("There are several transition effects and themes to choose from. Click the cog icon <i class='icon-cog'></i> in the top bar and customise the way Twitter Fontana visualizes Tweets.")
+            - messages.push("A real time fullscreen Twitter wall that uses modern web technology: #js, #html5 & #css3! No Flash! It works in all modern browser and even mobile devices like your iPad.")
+            - messages.push("Completely free & open source. So when you are feeling creative you can create a Twitter wall just the way you like it!")
+            - messages.push("Haven't got the time or powress to DIY, but still want a customized Twitter Wall with your own branding or extra features? Contact us @tweetfontana, we'd love to help!")
             each message, i in messages
                 div.message.media.well.col-md-6.col-md-offset-3(id='msg'+i)
                     figure.pull-left.media-object
@@ -69,7 +70,7 @@ html
 
         #logos.well.well-sm
             button.close(type="button") &times;
-            a.icon-eight-logo.text-muted(href="http://www.eight.nl/", title="Webdesign & Internet marketing in Arnhem", target="_blank")
+            a.icon-eight-logo.text-muted(href="http://www.eight.nl/", title="Twitterfontana was made by Eight Media Internetbureau", target="_blank")
                 span.sr-only Eight Media Internetbureau Arnhem
             | &nbsp;
             a.icon-github-logo.text-muted(href="https://github.com/EightMedia/TwitterFontana", title="Fork Twitter Fontana on GitHub", target="_blank")
