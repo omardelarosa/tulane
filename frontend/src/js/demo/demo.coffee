@@ -185,6 +185,10 @@ $ ->
     HTMLFontana = (settings={})->
         if visualizer
             visualizer.stop()
+        if not settings.transition
+            rand = Math.floor(Math.random() * Fontana.Visualizer.transitionEffects.length)
+            console.log(rand)
+            settings.transition = Fontana.Visualizer.transitionEffects[rand]
         visualizer = new Fontana.Visualizer(container, HTMLFontana.datasource)
         visualizer.start(settings)
     # Prepare our datasource, the messages will disappear soon...

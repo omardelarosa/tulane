@@ -47,9 +47,10 @@ html
 
         .fontana
             - messages = []
-            - messages.push("Welcome to the brand new Twitter Fontana! Completely revamped to work with Twitter's API v1.1")
-            - messages.push("Click the cog icon for the settings menu and pick a different style or transition efect")
-            - messages.push("Sign in with your Twitter account to enable Twitter search!")
+            - messages.push("Welcome to the brand new Twitter Fontana! Completely revamped to work with Twitter's API v1.1. Sign in with your Twitter account to enable Twitter search!")
+            - messages.push("There are several transition effects and theme's to choose from. Click the cog icon (<i class='icon-cog'></i>) in the top bar for the settings menu and pick the theme and effect you like.")
+            - messages.push("Twitter Fontana is completely free & <a href='https://github.com/EightMedia/TwitterFontana' target='_blank'>open source</a>. It's flexible and built using modern web technology: #js, #html5 & #css3")
+            - messages.push("One of the first real time fullscreen Twitter walls without Flash, so it works in all modern browser and even your iPad.")
             each message, i in messages
                 div.message.media.well.col-md-6.col-md-offset-3(id='msg'+i)
                     figure.pull-left.media-object

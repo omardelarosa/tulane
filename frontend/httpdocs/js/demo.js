@@ -242,11 +242,17 @@
       return visualizer.start(settings);
     };
     HTMLFontana = function(settings) {
+      var rand;
       if (settings == null) {
         settings = {};
       }
       if (visualizer) {
         visualizer.stop();
+      }
+      if (!settings.transition) {
+        rand = Math.floor(Math.random() * Fontana.Visualizer.transitionEffects.length);
+        console.log(rand);
+        settings.transition = Fontana.Visualizer.transitionEffects[rand];
       }
       visualizer = new Fontana.Visualizer(container, HTMLFontana.datasource);
       return visualizer.start(settings);
