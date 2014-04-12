@@ -156,3 +156,83 @@ class @Fontana.datasources.TwitterSearch
                         ])
                 )
 
+
+class @Fontana.datasources.TwitterSearchFA
+    ###
+    Same as above but allows custom HTTP service to be passed to it. 
+    Useful if you want to use OAuth.io based frontend authentication
+    Any authenticated http service should work, e.g angular resources 
+    Just needs to be authenticated, i.e bearer-token or other authentication header set first
+
+    Example:
+
+        ```CoffeeScript
+        $ ->            
+            settings =
+                transition: 'tilt-scroll' #Check the twitter fontana plugin page for a list of anim effects
+            q = '#bestEventEver' #twitter search query
+            container = $('.fontana')
+
+            OAuth.initialize('your oauth.io public key here')
+            OAuth.popup 'twitter', (err, res)->
+                if visualizer
+                    visualizer.stop()
+                datasource = new Fontana.datasources.TwitterSearchFA(q, res)
+                visualizer = new Fontana.Visualizer(container, datasource)
+                visualizer.start(settings)
+                return
+        ```
+    ###
+    min_interval = 60000 * 15 / 180
+
+    constructor: (@q, @http)->
+        @params = {
+            since_id: 1
+            q: @q
+            result_type: 'recent'
+        }
+        @lastCall = 0
+        @messages = []
+
+    getMessages: (callback)->
+        now = (new Date()).getTime()
+        if now - @lastCall < min_interval
+            if callback
+                setTimeout((=> callback(@messages)), 0)
+        else
+            @lastCall = (new Date()).getTime()
+            @http.get(
+                url: "https://api.twitter.com/1.1/search/tweets.json" 
+                data: @params
+                dataType: 'json')
+                    .success((data)=>
+                        if data.statuses.length
+                            @messages = data.statuses.concat(@messages)
+                            @params['since_id'] = @messages[0].id_str
+                        if callback
+                            if @messages.length
+                                callback(@messages)
+                            else
+                                callback([
+                                    id: (new Date()).getTime()
+                                    created_at: new Date().toString()
+                                    text: 'Your search term returned no Tweets :('
+                                    user:
+                                        name: 'Twitter Fontana'
+                                        screen_name: 'twitterfontana'
+                                        profile_image_url: '/img/avatar.png'
+                                ])
+                    )
+                    .error(->
+                        if callback
+                            callback([
+                                id: (new Date()).getTime()
+                                created_at: new Date().toString()
+                                text: 'Error fetching tweets :('
+                                user:
+                                    name: 'Twitter Fontana'
+                                    screen_name: 'twitterfontana'
+                                    profile_image_url: '/img/avatar.png'
+                            ])
+                    )
+
