@@ -116,6 +116,7 @@ class @Fontana.datasources.TwitterSearch
         }
         @lastCall = 0
         @messages = []
+        @getJSON = $.getJSON('/api/twitter/search/', @params)
 
     getMessages: (callback)->
         now = (new Date()).getTime()
@@ -124,7 +125,7 @@ class @Fontana.datasources.TwitterSearch
                 setTimeout((=> callback(@messages)), 0)
         else
             @lastCall = (new Date()).getTime()
-            $.getJSON('/api/twitter/search/', @params)
+            @getJSON
                 .success((data)=>
                     if data.statuses.length
                         @messages = data.statuses.concat(@messages)
@@ -156,3 +157,19 @@ class @Fontana.datasources.TwitterSearch
                         ])
                 )
 
+
+class @Fontana.datasources.TwitterSearchFA extends @Fontana.datasources.TwitterSearch
+    ###
+    Same as the Twitter search datasource but allows:
+    -- Different twitter api url
+    -- Uses an authenticated http service passed in,
+     such as an authenticated OAuth.io response, but others with the correct headers set should work as well
+    ###
+    constructor: (@q, @http, @url)->
+        super(@q)
+        if !@url?
+            @url = "https://api.twitter.com/1.1/search/tweets.json"
+        @getJSON = @http.get(            
+            url: @url
+            data: @params
+            dataType: 'json')
