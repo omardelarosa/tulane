@@ -281,10 +281,10 @@
 
 }).call(this);
 
-/*
-# Fontana Twitter authentication
-*/
 
+/*
+ * Fontana Twitter authentication
+ */
 
 (function() {
   if (this.Fontana == null) {

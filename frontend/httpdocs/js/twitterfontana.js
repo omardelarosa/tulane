@@ -1,5 +1,6 @@
+
 /*
-# Fontana Datasources
+ * Fontana Datasources
 
 There are three different types of Datasources:
 
@@ -25,12 +26,13 @@ The callback is called with a list of messages in the following format:
 
 Note that this is the minimum set of keys, some implementations (most notabily
 the Twitter datasource) will provide a richer set of keys.
-*/
-
+ */
 
 (function() {
   var _base,
-    __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
+    __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; },
+    __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
   if (this.Fontana == null) {
     this.Fontana = {};
@@ -41,12 +43,12 @@ the Twitter datasource) will provide a richer set of keys.
   }
 
   this.Fontana.datasources.Static = (function() {
+
     /*
     The Static datasource is constructed with a list of messages.
     * setMessages extendeds the list of messages.
     * getMessages will call a callback with the same list of messages.
-    */
-
+     */
     function Static(messages) {
       this.messages = messages != null ? messages : [];
     }
@@ -59,11 +61,12 @@ the Twitter datasource) will provide a richer set of keys.
     };
 
     Static.prototype.getMessages = function(callback) {
-      var _this = this;
       if (callback) {
-        return setTimeout((function() {
-          return callback(_this.messages);
-        }), 0);
+        return setTimeout(((function(_this) {
+          return function() {
+            return callback(_this.messages);
+          };
+        })(this)), 0);
       }
     };
 
@@ -72,6 +75,7 @@ the Twitter datasource) will provide a richer set of keys.
   })();
 
   this.Fontana.datasources.HTML = (function() {
+
     /*
     The HTML datasource should be initialized with a jQuery node.
     * extractMessages returns the messages found in the given node, it
@@ -88,8 +92,7 @@ the Twitter datasource) will provide a richer set of keys.
     * getMessages uses extractMessages to keep a running list of messages.
       It calls the callback with this list. Repeated calls to getMessages
       will extract new messages from the same node.
-    */
-
+     */
     function HTML(container) {
       this.container = container;
       this.messages = [];
@@ -114,8 +117,7 @@ the Twitter datasource) will provide a richer set of keys.
     };
 
     HTML.prototype.getMessages = function(callback) {
-      var ids, m, messages,
-        _this = this;
+      var ids, m, messages;
       ids = [
         (function() {
           var _i, _len, _ref, _results;
@@ -137,9 +139,11 @@ the Twitter datasource) will provide a richer set of keys.
       });
       this.messages = messages.concat(this.messages);
       if (callback) {
-        return setTimeout((function() {
-          return callback(_this.messages);
-        }), 0);
+        return setTimeout(((function(_this) {
+          return function() {
+            return callback(_this.messages);
+          };
+        })(this)), 0);
       }
     };
 
@@ -148,6 +152,7 @@ the Twitter datasource) will provide a richer set of keys.
   })();
 
   this.Fontana.datasources.TwitterSearch = (function() {
+
     /*
     This datasource performs a search using the Twitter API and provides
     the callback with the results. Repeated calls to getMessages will
@@ -155,8 +160,7 @@ the Twitter datasource) will provide a richer set of keys.
     
     Because of API limits the minimum time between actual searches
     is 5 seconds (180 searches in a 15 minute).
-    */
-
+     */
     var min_interval;
 
     min_interval = 60000 * 15 / 180;
@@ -170,44 +174,48 @@ the Twitter datasource) will provide a richer set of keys.
       };
       this.lastCall = 0;
       this.messages = [];
+      this.getJSON = $.getJSON('/api/twitter/search/', this.params);
     }
 
     TwitterSearch.prototype.getMessages = function(callback) {
-      var now,
-        _this = this;
+      var now;
       now = (new Date()).getTime();
       if (now - this.lastCall < min_interval) {
         if (callback) {
-          return setTimeout((function() {
-            return callback(_this.messages);
-          }), 0);
+          return setTimeout(((function(_this) {
+            return function() {
+              return callback(_this.messages);
+            };
+          })(this)), 0);
         }
       } else {
         this.lastCall = (new Date()).getTime();
-        return $.getJSON('/api/twitter/search/', this.params).success(function(data) {
-          if (data.statuses.length) {
-            _this.messages = data.statuses.concat(_this.messages);
-            _this.params['since_id'] = _this.messages[0].id_str;
-          }
-          if (callback) {
-            if (_this.messages.length) {
-              return callback(_this.messages);
-            } else {
-              return callback([
-                {
-                  id: (new Date()).getTime(),
-                  created_at: new Date().toString(),
-                  text: 'Your search term returned no Tweets :(',
-                  user: {
-                    name: 'Twitter Fontana',
-                    screen_name: 'twitterfontana',
-                    profile_image_url: '/img/avatar.png'
-                  }
-                }
-              ]);
+        return this.getJSON.success((function(_this) {
+          return function(data) {
+            if (data.statuses.length) {
+              _this.messages = data.statuses.concat(_this.messages);
+              _this.params['since_id'] = _this.messages[0].id_str;
             }
-          }
-        }).error(function() {
+            if (callback) {
+              if (_this.messages.length) {
+                return callback(_this.messages);
+              } else {
+                return callback([
+                  {
+                    id: (new Date()).getTime(),
+                    created_at: new Date().toString(),
+                    text: 'Your search term returned no Tweets :(',
+                    user: {
+                      name: 'Twitter Fontana',
+                      screen_name: 'twitterfontana',
+                      profile_image_url: '/img/avatar.png'
+                    }
+                  }
+                ]);
+              }
+            }
+          };
+        })(this)).error(function() {
           if (callback) {
             return callback([
               {
@@ -230,12 +238,42 @@ the Twitter datasource) will provide a richer set of keys.
 
   })();
 
+  this.Fontana.datasources.TwitterSearchFA = (function(_super) {
+    __extends(TwitterSearchFA, _super);
+
+
+    /*
+    Same as the Twitter search datasource but allows:
+    -- Different twitter api url
+    -- Uses an authenticated http service passed in,
+     such as an authenticated OAuth.io response, but others with the correct headers set should work as well
+     */
+
+    function TwitterSearchFA(q, http, url) {
+      this.q = q;
+      this.http = http;
+      this.url = url;
+      TwitterSearchFA.__super__.constructor.call(this, this.q);
+      if (this.url == null) {
+        this.url = "https://api.twitter.com/1.1/search/tweets.json";
+      }
+      this.getJSON = this.http.get({
+        url: this.url,
+        data: this.params,
+        dataType: 'json'
+      });
+    }
+
+    return TwitterSearchFA;
+
+  })(this.Fontana.datasources.TwitterSearch);
+
 }).call(this);
 
-/*
-# Fontana utils
-*/
 
+/*
+ * Fontana utils
+ */
 
 (function() {
   var monthNames, vendors, _base;
@@ -324,10 +362,10 @@ the Twitter datasource) will provide a richer set of keys.
 
 }).call(this);
 
-/*
-# Fontana feed visualizer.
-*/
 
+/*
+ * Fontana feed visualizer.
+ */
 
 (function() {
   var messageTemplate, transitionEffects;
@@ -336,23 +374,7 @@ the Twitter datasource) will provide a richer set of keys.
     this.Fontana = {};
   }
 
-  messageTemplate = '<div id="{id}" class="message media well col-md-6 col-md-offset-3">\
-    <figure class="pull-left media-object">\
-        <img src="{user.profile_image_url}" width="64" height="64" alt="" class="avatar img-thumbnail">\
-    </figure>\
-    <div class="media-body">\
-        <div class="media-heading">\
-            <cite>\
-                <span class="name">{user.name}</span>\
-                <small class="text-muted">\
-                    <span class="screen_name">@{user.screen_name}</span>\
-                    <time class="time pull-right" data-time="{created_at}">{created_at}</time>\
-                </small>\
-            </cite>\
-        </div>\
-        <div class="text lead"><q>{text}</q></div>\
-    </div>\
-</div>';
+  messageTemplate = '<div id="{id}" class="message media well col-md-6 col-md-offset-3"> <figure class="pull-left media-object"> <img src="{user.profile_image_url}" width="64" height="64" alt="" class="avatar img-thumbnail"> </figure> <div class="media-body"> <div class="media-heading"> <cite> <span class="name">{user.name}</span> <small class="text-muted"> <span class="screen_name">@{user.screen_name}</span> <time class="time pull-right" data-time="{created_at}">{created_at}</time> </small> </cite> </div> <div class="text lead"><q>{text}</q></div> </div> </div>';
 
   transitionEffects = ['compress', 'fade-in', 'hinge', 'lightspeed', 'scroll-up', 'scroll-down', 'slide', 'tilt-scroll', 'vertigo', 'zoom-in'];
 
@@ -373,10 +395,11 @@ the Twitter datasource) will provide a richer set of keys.
     };
 
     Visualizer.prototype.config = function(settings) {
-      var _this = this;
-      transitionEffects.forEach(function(cls) {
-        return _this.container.removeClass(cls);
-      });
+      transitionEffects.forEach((function(_this) {
+        return function(cls) {
+          return _this.container.removeClass(cls);
+        };
+      })(this));
       if (settings && settings.transition && transitionEffects.indexOf(settings.transition) > -1) {
         return this.container.addClass(settings.transition);
       } else {
@@ -406,38 +429,40 @@ the Twitter datasource) will provide a richer set of keys.
     };
 
     Visualizer.prototype.fetchMessages = function(initial) {
-      var _this = this;
       if (initial == null) {
         initial = false;
       }
-      return this.datasource.getMessages(function(data) {
-        _this.renderMessages(data, initial);
-        return _this.scheduleFetchMessages();
-      });
+      return this.datasource.getMessages((function(_this) {
+        return function(data) {
+          _this.renderMessages(data, initial);
+          return _this.scheduleFetchMessages();
+        };
+      })(this));
     };
 
     Visualizer.prototype.renderMessages = function(messages, initial) {
-      var _this = this;
       if (initial == null) {
         initial = false;
       }
-      messages.reverse().forEach(function(message) {
-        var messageNode;
-        if (!$("#" + message.id).length) {
-          if (message.entities) {
-            message.text = twttr.txt.autoLinkWithJSON(message.text, message.entities, {
-              targetBlank: true
-            });
-          } else {
-            message.text = twttr.txt.autoLink(message.text, {
-              targetBlank: true
-            });
+      messages.reverse().forEach((function(_this) {
+        return function(message) {
+          var messageNode;
+          if (!$("#" + message.id).length) {
+            if (message.entities) {
+              message.text = twttr.txt.autoLinkWithJSON(message.text, message.entities, {
+                targetBlank: true
+              });
+            } else {
+              message.text = twttr.txt.autoLink(message.text, {
+                targetBlank: true
+              });
+            }
+            messageNode = $(nano(messageTemplate, message));
+            _this.updateTime(messageNode);
+            return _this.container.prepend(messageNode);
           }
-          messageNode = $(nano(messageTemplate, message));
-          _this.updateTime(messageNode);
-          return _this.container.prepend(messageNode);
-        }
-      });
+        };
+      })(this));
       if (initial) {
         return this.scheduleAnimation();
       }
@@ -469,10 +494,11 @@ the Twitter datasource) will provide a richer set of keys.
     };
 
     Visualizer.prototype.updateAllTimes = function() {
-      var _this = this;
-      $(".message", this.container).each(function(i, message) {
-        return _this.updateTime(message);
-      });
+      $(".message", this.container).each((function(_this) {
+        return function(i, message) {
+          return _this.updateTime(message);
+        };
+      })(this));
       return this.scheduleUpdateAllTimes();
     };
 
@@ -483,26 +509,29 @@ the Twitter datasource) will provide a richer set of keys.
     };
 
     Visualizer.prototype.scheduleAnimation = function() {
-      var delay,
-        _this = this;
+      var delay;
       delay = this.animationTimer === -1 ? 0 : 6000;
-      return this.animationTimer = setTimeout((function() {
-        return _this.animate();
-      }), delay);
+      return this.animationTimer = setTimeout(((function(_this) {
+        return function() {
+          return _this.animate();
+        };
+      })(this)), delay);
     };
 
     Visualizer.prototype.scheduleFetchMessages = function() {
-      var _this = this;
-      return this.fetchMessagesTimer = setTimeout((function() {
-        return _this.fetchMessages();
-      }), 30000);
+      return this.fetchMessagesTimer = setTimeout(((function(_this) {
+        return function() {
+          return _this.fetchMessages();
+        };
+      })(this)), 30000);
     };
 
     Visualizer.prototype.scheduleUpdateAllTimes = function() {
-      var _this = this;
-      return setTimeout((function() {
-        return _this.updateAllTimes();
-      }), 10000);
+      return setTimeout(((function(_this) {
+        return function() {
+          return _this.updateAllTimes();
+        };
+      })(this)), 10000);
     };
 
     return Visualizer;

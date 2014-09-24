@@ -98,7 +98,7 @@ def absolute_url(name):
     """
     Flask's url_for with added SERVER_NAME
     """
-    host = app.config['SERVER_NAME'] or 'localhost:5000'
+    host = app.config['SERVER_NAME'] or 'localhost:5001'
     url = flask.url_for(name)
     return 'http://%s%s' % (host, url)
 
@@ -121,7 +121,7 @@ def devserver(extra_conf=None):
     # Setup a index.html redirect for convenience sake.
     app.route('/')(lambda: flask.redirect('index.html'))
     # Run the development server
-    app.run()
+    app.run(port=5001)
 
 
 if __name__ == "__main__":
