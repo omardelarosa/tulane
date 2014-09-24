@@ -110,7 +110,7 @@ def devserver(extra_conf=None):
     from werkzeug.wsgi import SharedDataMiddleware
     # Load the "example" conf
     root = app.root_path.split(os.path.dirname(__file__))[0]
-    conf = os.path.join(root, 'backend', 'var', 'conf', 'fontana-example.conf')
+    conf = os.path.join(root, 'backend', 'var', 'conf', 'fontana.conf')
     app.config.from_pyfile(conf)
     if extra_conf:
         app.config.from_pyfile(os.path.join(root, extra_conf))
