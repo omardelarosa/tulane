@@ -1,27 +1,33 @@
 body {
-    background-color: #1872C0;
+    // background-color: #1872C0;
+    background-color: #003300; // override
 }
 
 .navbar-default {
-    background-color: #166AB2;
+    // background-color: #166AB2;
+    background-color: #fff; // override
     border-color: #166AB2;
 
     .navbar-brand, .navbar-text {
-        color: #f9f8f7;
+        // color: #f9f8f7;
+        color: #003300; // override
 
         &:focus, &:hover {
-            color: #f9f8f7;
+            // color: #f9f8f7;
+            color: #002200; // override
         }
     }
 }
 
 .btn-default {
-    background-color: #044984;
+    // background-color: #044984;
     border-color: #044984;
+    background-color: #003300; // override
     color: #f9f8f7;
 
     &:focus, &:hover, &:active, &.active {
-        background-color: #033D6D;
+        // background-color: #033D6D;
+        background-color: #002200; // override
         border-color: #033D6D;
         color: #f9f8f7;
     }
@@ -34,7 +40,11 @@ body {
 }
 
 a {
-    color: #0072bc;
+    // color: #0072bc;
+    color: #009900; // override
+    &:focus, &:hover, &:active, &.active { 
+        color: #003300; // override
+    }
 }
 
 .text-muted {
