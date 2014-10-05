@@ -175,7 +175,7 @@ $ ->
             HTMLFontana()
 
     # Two Demo Fontanas
-    twitterFontana = (settings={}, q="TwitterFontana")->
+    twitterFontana = (settings={}, q="#tulane")->
         if visualizer
             visualizer.stop()
         datasource = new Fontana.datasources.TwitterSearch(q)

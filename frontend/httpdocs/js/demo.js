@@ -232,7 +232,7 @@
         settings = {};
       }
       if (q == null) {
-        q = "TwitterFontana";
+        q = "#tulane";
       }
       if (visualizer) {
         visualizer.stop();
